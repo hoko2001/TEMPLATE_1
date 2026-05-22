@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="Wedding Invitation — Layla & Karim">
+  <title>Layla & Karim — Wedding Invitation</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Cinzel:wght@400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Petals Layer -->
+  <div class="petals" id="petals" aria-hidden="true"></div>
+
+  <!-- Music Toggle -->
+  <button class="music-btn" id="musicBtn" aria-label="Toggle music" title="Toggle background music">
+    <svg id="iconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+      <path d="M9 18V5l12-2v13" stroke-linecap="round"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+    <svg id="iconOff" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+      <line x1="3" y1="3" x2="21" y2="21" stroke-linecap="round"/>
+      <path d="M9 18V5l12-2v9" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Optional background music — add your file named music.mp3 -->
+  <audio id="bgAudio" loop preload="none">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Page Wipe Transition -->
+  <div class="page-wipe" id="pageWipe" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       SCREEN A — ENVELOPE LANDING
+       ============================================================ -->
+  <div id="screenA" class="screen screen-a">
+    <div class="screen-a-bg" aria-hidden="true"></div>
+
+    <div class="landing">
+      <p class="land-eyebrow stagger-1">— You have received a —</p>
+      <h1 class="land-headline stagger-2">Wedding<br>Invitation</h1>
+
+      <!-- Envelope -->
+      <div class="env-wrap stagger-3" id="envWrap"
+           role="button" tabindex="0" aria-label="Open your wedding invitation"
+           onclick="openEnvelope()" onkeydown="if(event.key==='Enter'||event.key===' ')openEnvelope()">
+
+        <!-- Static envelope card body -->
+        <div class="env-body">
+          <div class="env-lines" aria-hidden="true"></div>
+        </div>
+
+        <!-- Animated top flap -->
+        <div class="env-flap" id="envFlap" aria-hidden="true">
+          <div class="env-flap-front"></div>
+          <div class="env-flap-back"></div>
+        </div>
+
+        <!-- Card that slides up on open -->
+        <div class="env-card" id="envCard" aria-hidden="true">
+          <p class="env-card-names">Layla &amp; Karim</p>
+        </div>
+
+        <!-- Wax Seal -->
+        <div class="seal" id="seal" aria-hidden="true">
+          <div class="seal-ring">
+            <div class="seal-face">
+              <p class="seal-text">L<span class="seal-amp">&amp;</span>K</p>
+            </div>
+          </div>
+          <div class="seal-glow"></div>
+        </div>
+
+      </div><!-- /env-wrap -->
+
+      <p class="land-tap stagger-4" id="landTap" aria-hidden="true">— tap to open —</p>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SCREEN B — FULL INVITATION
+       ============================================================ -->
+  <div id="screenB" class="screen screen-b hidden">
+
+    <!-- ─────────── HERO ─────────── -->
+    <section class="hero" id="sHero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-geo" aria-hidden="true"></div>
+      <div class="hero-petals-overlay" aria-hidden="true"></div>
+
+      <div class="hero-body">
+        <p class="hero-bism stagger-1" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+        <p class="hero-pre stagger-2">Together with their families</p>
+
+        <h2 class="hero-names stagger-3">
+          <span class="hname bride">Layla</span>
+          <span class="hname amp" aria-hidden="true">&amp;</span>
+          <span class="hname groom">Karim</span>
+        </h2>
+
+        <p class="hero-invite stagger-4">invite you to celebrate their union</p>
+
+        <div class="hero-rule stagger-5" aria-hidden="true">
+          <span></span>
+          <svg viewBox="0 0 64 20" width="64" height="20">
+            <path d="M32 10 L2 1 L32 10 L62 1 Z" fill="currentColor" opacity="0.4"/>
+            <circle cx="32" cy="10" r="3.5" fill="currentColor"/>
+            <circle cx="13" cy="6" r="1.8" fill="currentColor" opacity="0.55"/>
+            <circle cx="51" cy="6" r="1.8" fill="currentColor" opacity="0.55"/>
+          </svg>
+          <span></span>
+        </div>
+
+        <div class="hero-facts stagger-6">
+          <div class="hfact">
+            <span class="hfact-l">Date</span>
+            <span class="hfact-v">September 14, 2025</span>
+          </div>
+          <span class="hfact-sep" aria-hidden="true">✦</span>
+          <div class="hfact">
+            <span class="hfact-l">Time</span>
+            <span class="hfact-v">7:00 PM</span>
+          </div>
+          <span class="hfact-sep" aria-hidden="true">✦</span>
+          <div class="hfact">
+            <span class="hfact-l">Venue</span>
+            <span class="hfact-v">Grand Palace Hall</span>
+          </div>
+        </div>
+
+        <button class="hero-down stagger-7" onclick="smoothTo('sCountdown')" aria-label="Scroll to countdown">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22">
+            <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ─────────── COUNTDOWN ─────────── -->
+    <section class="s-cd" id="sCountdown">
+      <div class="sh reveal">
+        <span class="eyebrow">counting the moments</span>
+        <h2 class="stitle">Our Special Day</h2>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+      </div>
+      <div class="cd-grid reveal">
+        <div class="cd-unit"><div class="cd-n" id="cdD">00</div><div class="cd-l">Days</div></div>
+        <div class="cd-colon" aria-hidden="true">:</div>
+        <div class="cd-unit"><div class="cd-n" id="cdH">00</div><div class="cd-l">Hours</div></div>
+        <div class="cd-colon" aria-hidden="true">:</div>
+        <div class="cd-unit"><div class="cd-n" id="cdM">00</div><div class="cd-l">Minutes</div></div>
+        <div class="cd-colon" aria-hidden="true">:</div>
+        <div class="cd-unit"><div class="cd-n" id="cdS">00</div><div class="cd-l">Seconds</div></div>
+      </div>
+      <p class="cd-subtitle reveal">September 14, 2025 — 7:00 PM</p>
+    </section>
+
+
+    <!-- ─────────── DETAILS ─────────── -->
+    <section class="s-details" id="sDetails">
+      <div class="details-flex">
+
+        <div class="dcard reveal">
+          <div class="dcard-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <h3>Ceremony</h3>
+          <p class="dcard-time">5:00 PM</p>
+          <p class="dcard-venue">Grand Palace Hall</p>
+          <p class="dcard-addr">123 Wedding Boulevard<br>Your City</p>
+          <a class="dcard-map" href="https://maps.google.com/?q=your+venue" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+
+        <div class="details-div reveal" aria-hidden="true">
+          <div class="dd-line"></div>
+          <svg viewBox="0 0 40 40" width="36" height="36">
+            <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="0.6"/>
+            <path d="M20 3L22 18L37 20L22 22L20 37L18 22L3 20L18 18Z" fill="currentColor" opacity="0.5"/>
+          </svg>
+          <div class="dd-line"></div>
+        </div>
+
+        <div class="dcard reveal">
+          <div class="dcard-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3>Reception</h3>
+          <p class="dcard-time">7:00 PM</p>
+          <p class="dcard-venue">The Royal Gardens</p>
+          <p class="dcard-addr">456 Reception Avenue<br>Your City</p>
+          <a class="dcard-map" href="https://maps.google.com/?q=your+reception" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─────────── SCHEDULE ─────────── -->
+    <section class="s-sched" id="sSchedule">
+      <div class="sh reveal">
+        <span class="eyebrow">plan your visit</span>
+        <h2 class="stitle">The Day's Schedule</h2>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+      </div>
+      <ol class="timeline">
+        <li class="tl reveal">
+          <div class="tl-t">4:30 PM</div>
+          <div class="tl-dot" aria-hidden="true"></div>
+          <div class="tl-c"><h4>Guest Arrival</h4><p>Welcome drinks &amp; canapés</p></div>
+        </li>
+        <li class="tl reveal">
+          <div class="tl-t">5:00 PM</div>
+          <div class="tl-dot" aria-hidden="true"></div>
+          <div class="tl-c"><h4>Ceremony</h4><p>Exchange of vows &amp; rings</p></div>
+        </li>
+        <li class="tl reveal">
+          <div class="tl-t">6:00 PM</div>
+          <div class="tl-dot" aria-hidden="true"></div>
+          <div class="tl-c"><h4>Cocktail Hour</h4><p>Live music &amp; photography</p></div>
+        </li>
+        <li class="tl reveal">
+          <div class="tl-t">7:00 PM</div>
+          <div class="tl-dot" aria-hidden="true"></div>
+          <div class="tl-c"><h4>Reception Dinner</h4><p>Dinner &amp; first dance</p></div>
+        </li>
+        <li class="tl reveal">
+          <div class="tl-t">10:00 PM</div>
+          <div class="tl-dot tl-dot-last" aria-hidden="true"></div>
+          <div class="tl-c"><h4>Celebration</h4><p>Dancing until midnight</p></div>
+        </li>
+      </ol>
+    </section>
+
+
+    <!-- ─────────── GALLERY ─────────── -->
+    <section class="s-gallery" id="sGallery">
+      <div class="sh reveal">
+        <span class="eyebrow">our journey together</span>
+        <h2 class="stitle">Love Story</h2>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+      </div>
+      <!-- 
+        To add your photos: replace the <div class="gph"> elements with:
+        <img src="your-photo.jpg" alt="Description">
+        inside each .gi div.
+      -->
+      <div class="gallery-grid">
+        <div class="gi gi-tall reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
+        <div class="gi reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
+        <div class="gi reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
+        <div class="gi gi-wide reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
+      </div>
+    </section>
+
+
+    <!-- ─────────── RSVP ─────────── -->
+    <section class="s-rsvp" id="sRSVP">
+      <div class="rsvp-geo" aria-hidden="true"></div>
+      <div class="sh reveal">
+        <span class="eyebrow">we'd love your company</span>
+        <h2 class="stitle rsvp-stitle">RSVP</h2>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+        <p class="rsvp-by">Kindly reply by August 1, 2025</p>
+      </div>
+
+      <div class="rsvp-area">
+        <div class="rsvp-form reveal" id="rsvpForm">
+          <div class="fi"><input id="fName" type="text" class="fin" placeholder="Your Full Name" autocomplete="name"></div>
+          <div class="fi"><input id="fEmail" type="email" class="fin" placeholder="Email Address" autocomplete="email"></div>
+          <div class="fi"><input id="fPhone" type="tel" class="fin" placeholder="Phone Number (optional)" autocomplete="tel"></div>
+
+          <div class="fi attend-row">
+            <label class="ropt">
+              <input type="radio" name="attend" value="yes" id="rYes">
+              <span class="rbox" aria-hidden="true"></span>
+              <span>Joyfully accepts</span>
+            </label>
+            <label class="ropt">
+              <input type="radio" name="attend" value="no" id="rNo">
+              <span class="rbox" aria-hidden="true"></span>
+              <span>Regretfully declines</span>
+            </label>
+          </div>
+
+          <div class="fi" id="guestsRow">
+            <select id="fGuests" class="fin fsel">
+              <option value="">How many guests?</option>
+              <option value="1">Just me (1)</option>
+              <option value="2">2 guests</option>
+              <option value="3">3 guests</option>
+              <option value="4">4 guests</option>
+              <option value="5+">5 or more</option>
+            </select>
+          </div>
+
+          <div class="fi">
+            <textarea id="fMsg" class="fin ftarea" placeholder="A message for the couple… (optional)"></textarea>
+          </div>
+
+          <button class="rsvp-send" type="button" onclick="handleRSVP()">
+            <span>Send RSVP</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16">
+              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="rsvp-ok hidden" id="rsvpOK" role="status">
+          <div class="ok-star" aria-hidden="true">✦</div>
+          <h3>Thank You!</h3>
+          <p>Your RSVP has been received.<br>We can't wait to celebrate with you.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────── FOOTER ─────────── -->
+    <footer class="site-footer">
+      <div class="footer-geo" aria-hidden="true"></div>
+      <p class="ft-bism" lang="ar">بِسْمِ اللَّهِ</p>
+      <p class="ft-names">Layla &amp; Karim</p>
+      <p class="ft-date">September 14, 2025</p>
+      <blockquote class="ft-verse">
+        <p>"And among His signs is that He created for you mates from among yourselves,<br>
+           that you may find tranquility in them."</p>
+        <cite>— Quran 30:21</cite>
+      </blockquote>
+      <p class="ft-copy">Made with ♡ for our special day</p>
+    </footer>
+
+  </div><!-- /screenB -->
+
+  <script src="script.js"></script>
+</body>
+</html>
