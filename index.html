@@ -1,349 +1,866 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="description" content="Wedding Invitation — Layla & Karim">
-  <title>Layla & Karim — Wedding Invitation</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Cinzel:wght@400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sarah & James — Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;500&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --gold: #c9a96e;
+  --gold-light: #e8d5a3;
+  --gold-pale: #f5edd8;
+  --gold-dark: #8b6914;
+  --cream: #faf7f2;
+  --dark: #1a1612;
+  --text: #3d2e1a;
+  --text-muted: #7a6347;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+
+body{
+  background:#0a0804;
+  color:var(--cream);
+  font-family:'EB Garamond',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── CANVAS BACKGROUND ── */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+}
+
+/* ── MAIN WRAPPER ── */
+.page{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 0 80px;
+}
+
+/* ── HERO SECTION ── */
+.hero{
+  width:100%;max-width:680px;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:60px 24px 40px;
+  position:relative;
+  text-align:center;
+}
+
+/* top ornament */
+.ornament-top{
+  width:180px;height:auto;
+  margin-bottom:36px;
+  opacity:0;
+  animation:fadeUp 1.2s ease forwards 0.4s;
+}
+
+/* tagline */
+.pre-heading{
+  font-family:'Cinzel',serif;
+  font-size:clamp(9px,2.2vw,12px);
+  letter-spacing:0.35em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 0.8s;
+}
+
+/* main names */
+.names-wrap{
+  position:relative;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeUp 1.2s ease forwards 1.0s;
+}
+
+.name-sarah, .name-james{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(56px,14vw,96px);
+  line-height:0.92;
+  color:var(--cream);
+  display:block;
+  text-shadow: 0 0 80px rgba(201,169,110,0.4), 0 0 160px rgba(201,169,110,0.15);
+  letter-spacing:0.02em;
+}
+
+.ampersand{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(40px,10vw,72px);
+  color:var(--gold);
+  display:block;
+  line-height:1;
+  margin:4px 0;
+  text-shadow: 0 0 40px rgba(201,169,110,0.8), 0 0 80px rgba(201,169,110,0.4);
+}
+
+/* divider line */
+.divider{
+  display:flex;align-items:center;gap:16px;
+  width:100%;max-width:340px;
+  margin:28px auto;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 1.3s;
+}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.divider-diamond{
+  width:7px;height:7px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  flex-shrink:0;
+  box-shadow:0 0 10px rgba(201,169,110,0.8);
+}
+
+/* invitation text */
+.invitation-text{
+  font-family:'EB Garamond',serif;
+  font-size:clamp(15px,4vw,19px);
+  line-height:1.9;
+  color:rgba(250,247,242,0.82);
+  letter-spacing:0.04em;
+  max-width:420px;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 1.5s;
+}
+
+/* date block */
+.date-block{
+  margin:36px 0 0;
+  opacity:0;
+  animation:fadeUp 1s ease forwards 1.8s;
+}
+
+.date-month{
+  font-family:'Cinzel',serif;
+  font-size:clamp(10px,2.5vw,13px);
+  letter-spacing:0.4em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.date-number{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:clamp(64px,16vw,110px);
+  line-height:0.85;
+  color:var(--cream);
+  letter-spacing:-0.02em;
+  position:relative;
+}
+
+.date-year{
+  font-family:'Cinzel',serif;
+  font-size:clamp(13px,3.5vw,18px);
+  letter-spacing:0.3em;
+  color:var(--gold-light);
+  margin-top:8px;
+}
+
+/* scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;
+  animation:fadeIn 1s ease forwards 2.5s;
+}
+.scroll-hint span{
+  font-family:'Cinzel',serif;
+  font-size:9px;letter-spacing:0.3em;
+  color:rgba(201,169,110,0.5);
+  text-transform:uppercase;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+
+/* ── SECTIONS ── */
+.section{
+  width:100%;max-width:680px;
+  padding:60px 24px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.9s ease, transform 0.9s ease;
+}
+.section.visible{opacity:1;transform:translateY(0);}
+
+.section-label{
+  font-family:'Cinzel',serif;
+  font-size:clamp(9px,2vw,11px);
+  letter-spacing:0.45em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:32px;
+}
+
+/* ── VENUE CARD ── */
+.venue-card{
+  background:linear-gradient(145deg, rgba(201,169,110,0.06) 0%, rgba(201,169,110,0.02) 100%);
+  border:1px solid rgba(201,169,110,0.2);
+  border-radius:2px;
+  padding:48px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.venue-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.venue-card::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.venue-name{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(28px,7vw,44px);
+  color:var(--cream);
+  line-height:1.2;
+  margin-bottom:16px;
+}
+
+.venue-address{
+  font-family:'EB Garamond',serif;
+  font-size:clamp(14px,3.5vw,17px);
+  color:rgba(250,247,242,0.6);
+  line-height:1.8;
+  letter-spacing:0.06em;
+}
+
+/* ── TIMELINE ── */
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  max-width:400px;
+  margin:0 auto;
+  position:relative;
+}
+.timeline::before{
+  content:'';
+  position:absolute;left:50%;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(201,169,110,0.3),transparent);
+  transform:translateX(-50%);
+}
+
+.timeline-item{
+  display:grid;
+  grid-template-columns:1fr 40px 1fr;
+  gap:0;
+  align-items:center;
+  padding:24px 0;
+}
+
+.timeline-item:nth-child(odd) .tl-content{text-align:right;grid-column:1;}
+.timeline-item:nth-child(odd) .tl-dot{grid-column:2;}
+.timeline-item:nth-child(odd) .tl-empty{grid-column:3;}
+.timeline-item:nth-child(even) .tl-empty{grid-column:1;}
+.timeline-item:nth-child(even) .tl-dot{grid-column:2;}
+.timeline-item:nth-child(even) .tl-content{text-align:left;grid-column:3;}
+
+.tl-dot{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+}
+.tl-dot-inner{
+  width:10px;height:10px;
+  background:var(--gold);
+  border-radius:50%;
+  box-shadow:0 0 16px rgba(201,169,110,0.8), 0 0 32px rgba(201,169,110,0.3);
+}
+
+.tl-time{
+  font-family:'Cinzel',serif;
+  font-size:clamp(9px,2vw,11px);
+  letter-spacing:0.3em;
+  color:var(--gold);
+  margin-bottom:4px;
+}
+.tl-event{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(17px,4vw,22px);
+  color:var(--cream);
+  line-height:1.2;
+}
+.tl-empty{display:block;}
+
+/* ── ATTIRE ── */
+.attire-wrap{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr;
+  gap:36px;
+  max-width:440px;
+  margin:0 auto;
+  align-items:start;
+}
+.attire-divider{background:rgba(201,169,110,0.2);}
+.attire-item h4{
+  font-family:'Cinzel',serif;
+  font-size:clamp(9px,2vw,11px);
+  letter-spacing:0.35em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.attire-item p{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:clamp(17px,4vw,20px);
+  color:rgba(250,247,242,0.75);
+  line-height:1.5;
+}
+
+/* ── RSVP ── */
+.rsvp-wrap{
+  max-width:440px;
+  margin:0 auto;
+}
+.rsvp-note{
+  font-family:'EB Garamond',serif;
+  font-style:italic;
+  font-size:clamp(16px,4vw,20px);
+  color:rgba(250,247,242,0.7);
+  line-height:1.8;
+  margin-bottom:36px;
+}
+.rsvp-deadline{
+  font-family:'Cinzel',serif;
+  font-size:clamp(10px,2.5vw,13px);
+  letter-spacing:0.3em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:36px;
+}
+
+.btn-rsvp{
+  display:inline-block;
+  font-family:'Cinzel',serif;
+  font-size:clamp(10px,2.5vw,12px);
+  letter-spacing:0.4em;
+  color:var(--dark);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));
+  border:none;
+  padding:18px 52px;
+  text-decoration:none;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  text-transform:uppercase;
+  box-shadow:0 0 40px rgba(201,169,110,0.3), 0 4px 20px rgba(0,0,0,0.4);
+}
+.btn-rsvp::before{
+  content:'';
+  position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transition:left 0.5s ease;
+  pointer-events:none;
+}
+.btn-rsvp:hover::before{left:140%;}
+.btn-rsvp:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(201,169,110,0.5),0 8px 30px rgba(0,0,0,0.5);}
+.btn-rsvp:active{transform:translateY(0);}
+
+/* ── CLOSING ── */
+.closing{
+  padding:80px 24px 20px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+.closing.visible{opacity:1;transform:translateY(0);}
+.closing-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(17px,4.5vw,26px);
+  color:rgba(250,247,242,0.55);
+  line-height:1.7;
+  max-width:480px;
+  margin:0 auto 20px;
+}
+.closing-names{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(22px,6vw,36px);
+  color:var(--gold);
+  letter-spacing:0.08em;
+}
+
+/* ── FLOATING PARTICLES ── */
+.particle{
+  position:fixed;
+  pointer-events:none;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,0.6),transparent);
+  z-index:0;
+  animation:float linear infinite;
+}
+
+/* ── CORNER ORNAMENTS ── */
+.corner-ornament{
+  position:fixed;
+  width:120px;height:120px;
+  pointer-events:none;
+  z-index:2;
+  opacity:0.4;
+}
+.corner-ornament.tl{top:16px;left:16px;}
+.corner-ornament.tr{top:16px;right:16px;transform:scaleX(-1);}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes fadeIn{
+  from{opacity:0;}to{opacity:1;}
+}
+@keyframes scrollPulse{
+  0%,100%{opacity:0.5;transform:scaleY(1);}
+  50%{opacity:1;transform:scaleY(1.1);}
+}
+@keyframes float{
+  0%{transform:translateY(100vh) translateX(0) rotate(0deg);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:0.6;}
+  100%{transform:translateY(-10vh) translateX(40px) rotate(360deg);opacity:0;}
+}
+@keyframes shimmer{
+  0%,100%{text-shadow: 0 0 80px rgba(201,169,110,0.4), 0 0 160px rgba(201,169,110,0.15);}
+  50%{text-shadow: 0 0 120px rgba(201,169,110,0.7), 0 0 220px rgba(201,169,110,0.3);}
+}
+@keyframes candleFlicker{
+  0%,100%{opacity:0.85;transform:scale(1);}
+  25%{opacity:0.95;transform:scale(1.02);}
+  50%{opacity:0.8;transform:scale(0.98);}
+  75%{opacity:0.9;transform:scale(1.01);}
+}
+
+.name-sarah,.name-james{animation:fadeUp 1.2s ease forwards 1.0s,shimmer 4s ease-in-out infinite 2.5s;}
+
+/* ── LIGHT RAYS ── */
+.light-ray{
+  position:fixed;
+  top:-20vh;
+  width:2px;
+  height:120vh;
+  background:linear-gradient(to bottom,rgba(201,169,110,0.15),transparent);
+  pointer-events:none;
+  z-index:0;
+  transform-origin:top center;
+}
+
+/* ── MOBILE ADJUSTMENTS ── */
+@media(max-width:480px){
+  .venue-card{padding:36px 24px;}
+  .attire-wrap{grid-template-columns:1fr;gap:24px;}
+  .attire-divider{display:none;}
+  .timeline-item{grid-template-columns:1fr 32px 1fr;}
+  .corner-ornament{width:80px;height:80px;}
+  .btn-rsvp{padding:16px 40px;}
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:#0a0804;}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px;}
+</style>
 </head>
 <body>
 
-  <!-- Petals Layer -->
-  <div class="petals" id="petals" aria-hidden="true"></div>
+<!-- Ambient canvas -->
+<canvas id="bg-canvas"></canvas>
 
-  <!-- Music Toggle -->
-  <button class="music-btn" id="musicBtn" aria-label="Toggle music" title="Toggle background music">
-    <svg id="iconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
-      <path d="M9 18V5l12-2v13" stroke-linecap="round"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+<!-- Light rays -->
+<div class="light-ray" style="left:15%;transform:rotate(-8deg);animation:candleFlicker 5s ease-in-out infinite;"></div>
+<div class="light-ray" style="left:50%;transform:rotate(0deg);animation:candleFlicker 7s ease-in-out infinite 1s;"></div>
+<div class="light-ray" style="left:82%;transform:rotate(6deg);animation:candleFlicker 6s ease-in-out infinite 2s;"></div>
+
+<!-- Corner ornaments -->
+<svg class="corner-ornament tl" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 10 L10 60 M10 10 L60 10" stroke="#c9a96e" stroke-width="1" fill="none"/>
+  <path d="M10 10 L30 30" stroke="#c9a96e" stroke-width="0.5" fill="none"/>
+  <circle cx="10" cy="10" r="3" fill="#c9a96e"/>
+  <circle cx="60" cy="10" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <circle cx="10" cy="60" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <path d="M25 10 Q17 17 10 25" stroke="#c9a96e" stroke-width="0.5" fill="none" opacity="0.6"/>
+  <line x1="18" y1="10" x2="18" y2="16" stroke="#c9a96e" stroke-width="0.5" opacity="0.4"/>
+  <line x1="10" y1="18" x2="16" y2="18" stroke="#c9a96e" stroke-width="0.5" opacity="0.4"/>
+</svg>
+<svg class="corner-ornament tr" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 10 L10 60 M10 10 L60 10" stroke="#c9a96e" stroke-width="1" fill="none"/>
+  <path d="M10 10 L30 30" stroke="#c9a96e" stroke-width="0.5" fill="none"/>
+  <circle cx="10" cy="10" r="3" fill="#c9a96e"/>
+  <circle cx="60" cy="10" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <circle cx="10" cy="60" r="1.5" fill="#c9a96e" opacity="0.5"/>
+  <path d="M25 10 Q17 17 10 25" stroke="#c9a96e" stroke-width="0.5" fill="none" opacity="0.6"/>
+</svg>
+
+<!-- ═══════════════════ PAGE ═══════════════════ -->
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- top SVG ornament -->
+    <svg class="ornament-top" viewBox="0 0 180 60" fill="none">
+      <line x1="0" y1="30" x2="65" y2="30" stroke="#c9a96e" stroke-width="0.5"/>
+      <line x1="115" y1="30" x2="180" y2="30" stroke="#c9a96e" stroke-width="0.5"/>
+      <path d="M65 30 Q90 8 115 30" stroke="#c9a96e" stroke-width="0.5" fill="none"/>
+      <path d="M72 30 Q90 14 108 30" stroke="#c9a96e" stroke-width="0.3" fill="none" opacity="0.5"/>
+      <circle cx="65" cy="30" r="2" fill="#c9a96e"/>
+      <circle cx="115" cy="30" r="2" fill="#c9a96e"/>
+      <circle cx="90" cy="12" r="1.5" fill="#c9a96e" opacity="0.7"/>
+      <circle cx="0" cy="30" r="1" fill="#c9a96e" opacity="0.4"/>
+      <circle cx="180" cy="30" r="1" fill="#c9a96e" opacity="0.4"/>
     </svg>
-    <svg id="iconOff" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
-      <line x1="3" y1="3" x2="21" y2="21" stroke-linecap="round"/>
-      <path d="M9 18V5l12-2v9" stroke-linecap="round"/>
-    </svg>
-  </button>
 
-  <!-- Optional background music — add your file named music.mp3 -->
-  <audio id="bgAudio" loop preload="none">
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+    <p class="pre-heading">Together with their families</p>
 
-  <!-- Page Wipe Transition -->
-  <div class="page-wipe" id="pageWipe" aria-hidden="true"></div>
-
-  <!-- ============================================================
-       SCREEN A — ENVELOPE LANDING
-       ============================================================ -->
-  <div id="screenA" class="screen screen-a">
-    <div class="screen-a-bg" aria-hidden="true"></div>
-
-    <div class="landing">
-      <p class="land-eyebrow stagger-1">— You have received a —</p>
-      <h1 class="land-headline stagger-2">Wedding<br>Invitation</h1>
-
-      <!-- Envelope -->
-      <div class="env-wrap stagger-3" id="envWrap"
-           role="button" tabindex="0" aria-label="Open your wedding invitation"
-           onclick="openEnvelope()" onkeydown="if(event.key==='Enter'||event.key===' ')openEnvelope()">
-
-        <!-- Static envelope card body -->
-        <div class="env-body">
-          <div class="env-lines" aria-hidden="true"></div>
-        </div>
-
-        <!-- Animated top flap -->
-        <div class="env-flap" id="envFlap" aria-hidden="true">
-          <div class="env-flap-front"></div>
-          <div class="env-flap-back"></div>
-        </div>
-
-        <!-- Card that slides up on open -->
-        <div class="env-card" id="envCard" aria-hidden="true">
-          <p class="env-card-names">Layla &amp; Karim</p>
-        </div>
-
-        <!-- Wax Seal -->
-        <div class="seal" id="seal" aria-hidden="true">
-          <div class="seal-ring">
-            <div class="seal-face">
-              <p class="seal-text">L<span class="seal-amp">&amp;</span>K</p>
-            </div>
-          </div>
-          <div class="seal-glow"></div>
-        </div>
-
-      </div><!-- /env-wrap -->
-
-      <p class="land-tap stagger-4" id="landTap" aria-hidden="true">— tap to open —</p>
+    <div class="names-wrap">
+      <span class="name-sarah">Sarah</span>
+      <span class="ampersand">&amp;</span>
+      <span class="name-james">James</span>
     </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <p class="invitation-text">
+      joyfully request the pleasure of your company<br>
+      at the celebration of their marriage
+    </p>
+
+    <div class="date-block">
+      <p class="date-month">September</p>
+      <div class="date-number">27</div>
+      <p class="date-year">Two Thousand &amp; Twenty-Five</p>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
+  </section><!-- /hero -->
+
+  <!-- ── VENUE ── -->
+  <section class="section" id="s-venue">
+    <p class="section-label">The Venue</p>
+    <div class="venue-card">
+      <div class="venue-name">Villa della Rosa</div>
+      <p class="venue-address">
+        Via delle Rose, 14<br>
+        Tuscany, Italy · 50026
+      </p>
+
+      <!-- mini divider -->
+      <div class="divider" style="max-width:200px;margin:28px auto;">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(14px,3.5vw,17px);color:rgba(250,247,242,0.5);letter-spacing:0.05em;">
+        Nestled among cypress trees and ancient vineyards,<br>
+        beneath the golden light of the Tuscan hills.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── TIMELINE ── -->
+  <section class="section" id="s-timeline">
+    <p class="section-label">Order of the Day</p>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="tl-content">
+          <p class="tl-time">03:00 PM</p>
+          <p class="tl-event">Guests Arrive</p>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-content">
+          <p class="tl-time">04:00 PM</p>
+          <p class="tl-event">The Ceremony</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-content">
+          <p class="tl-time">05:30 PM</p>
+          <p class="tl-event">Cocktail Hour</p>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-content">
+          <p class="tl-time">07:30 PM</p>
+          <p class="tl-event">Wedding Dinner</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-content">
+          <p class="tl-time">10:00 PM</p>
+          <p class="tl-event">Dancing &amp; Celebration</p>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-empty"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ATTIRE ── -->
+  <section class="section" id="s-attire">
+    <p class="section-label">Dress Code</p>
+    <div class="attire-wrap">
+      <div class="attire-item">
+        <h4>She</h4>
+        <p>Formal gown<br>in ivory, blush,<br>or sage</p>
+      </div>
+      <div class="attire-divider"></div>
+      <div class="attire-item">
+        <h4>He</h4>
+        <p>Black tie<br>or dark lounge<br>suit</p>
+      </div>
+    </div>
+    <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:clamp(13px,3vw,16px);color:rgba(250,247,242,0.35);margin-top:32px;letter-spacing:0.06em;">Please, no white or champagne.</p>
+  </section>
+
+  <!-- ── RSVP ── -->
+  <section class="section" id="s-rsvp">
+    <p class="section-label">Kindly Reply</p>
+
+    <div class="rsvp-wrap">
+      <p class="rsvp-note">
+        We would be so honoured<br>
+        to celebrate this moment with you.
+      </p>
+      <p class="rsvp-deadline">Please respond by August 1st, 2025</p>
+
+      <a class="btn-rsvp" href="mailto:rsvp@sarahandjames.com?subject=RSVP%20Sarah%20%26%20James" role="button">
+        RSVP Now
+      </a>
+
+      <div class="divider" style="max-width:240px;margin:40px auto 0;">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+      </div>
+
+      <p style="font-family:'EB Garamond',serif;font-size:clamp(13px,3vw,16px);color:rgba(250,247,242,0.4);margin-top:32px;letter-spacing:0.06em;line-height:1.8;">
+        For queries and accommodation inquiries<br>
+        rsvp@sarahandjames.com
+      </p>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <div class="closing" id="s-closing">
+    <!-- bottom ornament -->
+    <svg viewBox="0 0 180 60" fill="none" style="width:140px;margin-bottom:32px;">
+      <line x1="0" y1="30" x2="65" y2="30" stroke="#c9a96e" stroke-width="0.5"/>
+      <line x1="115" y1="30" x2="180" y2="30" stroke="#c9a96e" stroke-width="0.5"/>
+      <path d="M65 30 Q90 52 115 30" stroke="#c9a96e" stroke-width="0.5" fill="none"/>
+      <circle cx="90" cy="48" r="1.5" fill="#c9a96e" opacity="0.7"/>
+      <circle cx="65" cy="30" r="2" fill="#c9a96e"/>
+      <circle cx="115" cy="30" r="2" fill="#c9a96e"/>
+    </svg>
+
+    <p class="closing-quote">
+      "Two souls, one heart —<br>
+      two lives, one love."
+    </p>
+    <p class="closing-names">Sarah &amp; James</p>
+    <p style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;color:rgba(201,169,110,0.3);text-transform:uppercase;margin-top:20px;">27 · IX · MMX X V</p>
   </div>
 
+</div><!-- /page -->
 
-  <!-- ============================================================
-       SCREEN B — FULL INVITATION
-       ============================================================ -->
-  <div id="screenB" class="screen screen-b hidden">
+<script>
+/* ─────────────────────────────────────────────────────────────
+   AMBIENT CANVAS — star field + light pools + candle glow
+───────────────────────────────────────────────────────────── */
+(function(){
+  const canvas=document.getElementById('bg-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,stars=[],pools=[],t=0;
 
-    <!-- ─────────── HERO ─────────── -->
-    <section class="hero" id="sHero">
-      <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-geo" aria-hidden="true"></div>
-      <div class="hero-petals-overlay" aria-hidden="true"></div>
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+    buildStars();
+    buildPools();
+  }
 
-      <div class="hero-body">
-        <p class="hero-bism stagger-1" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-        <p class="hero-pre stagger-2">Together with their families</p>
+  function buildStars(){
+    stars=[];
+    const count=Math.floor((W*H)/6000);
+    for(let i=0;i<count;i++){
+      stars.push({
+        x:Math.random()*W,
+        y:Math.random()*H,
+        r:Math.random()*1.2+0.2,
+        a:Math.random(),
+        speed:Math.random()*0.003+0.001,
+        phase:Math.random()*Math.PI*2
+      });
+    }
+  }
 
-        <h2 class="hero-names stagger-3">
-          <span class="hname bride">Layla</span>
-          <span class="hname amp" aria-hidden="true">&amp;</span>
-          <span class="hname groom">Karim</span>
-        </h2>
+  function buildPools(){
+    pools=[
+      {x:0.15,y:0.4,r:0.22,hue:42,a:0.08},
+      {x:0.5, y:0.6,r:0.3, hue:38,a:0.06},
+      {x:0.85,y:0.35,r:0.2,hue:45,a:0.07},
+      {x:0.3, y:0.85,r:0.18,hue:40,a:0.05},
+      {x:0.7, y:0.9, r:0.2, hue:36,a:0.06},
+    ];
+  }
 
-        <p class="hero-invite stagger-4">invite you to celebrate their union</p>
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    t+=0.008;
 
-        <div class="hero-rule stagger-5" aria-hidden="true">
-          <span></span>
-          <svg viewBox="0 0 64 20" width="64" height="20">
-            <path d="M32 10 L2 1 L32 10 L62 1 Z" fill="currentColor" opacity="0.4"/>
-            <circle cx="32" cy="10" r="3.5" fill="currentColor"/>
-            <circle cx="13" cy="6" r="1.8" fill="currentColor" opacity="0.55"/>
-            <circle cx="51" cy="6" r="1.8" fill="currentColor" opacity="0.55"/>
-          </svg>
-          <span></span>
-        </div>
+    /* deep vignette gradient */
+    const vg=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.75);
+    vg.addColorStop(0,'rgba(30,20,8,0.0)');
+    vg.addColorStop(1,'rgba(5,3,1,0.7)');
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
 
-        <div class="hero-facts stagger-6">
-          <div class="hfact">
-            <span class="hfact-l">Date</span>
-            <span class="hfact-v">September 14, 2025</span>
-          </div>
-          <span class="hfact-sep" aria-hidden="true">✦</span>
-          <div class="hfact">
-            <span class="hfact-l">Time</span>
-            <span class="hfact-v">7:00 PM</span>
-          </div>
-          <span class="hfact-sep" aria-hidden="true">✦</span>
-          <div class="hfact">
-            <span class="hfact-l">Venue</span>
-            <span class="hfact-v">Grand Palace Hall</span>
-          </div>
-        </div>
+    /* warm light pools */
+    pools.forEach(p=>{
+      const flicker=1+0.04*Math.sin(t*1.3+p.x*10);
+      const rr=p.r*Math.min(W,H)*flicker;
+      const grad=ctx.createRadialGradient(p.x*W,p.y*H,0,p.x*W,p.y*H,rr);
+      const alpha=p.a*(0.9+0.1*Math.sin(t*2+p.y*7));
+      grad.addColorStop(0,`hsla(${p.hue},75%,55%,${alpha})`);
+      grad.addColorStop(0.4,`hsla(${p.hue},65%,35%,${alpha*0.4})`);
+      grad.addColorStop(1,'hsla(40,60%,20%,0)');
+      ctx.fillStyle=grad;
+      ctx.fillRect(0,0,W,H);
+    });
 
-        <button class="hero-down stagger-7" onclick="smoothTo('sCountdown')" aria-label="Scroll to countdown">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22">
-            <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-    </section>
+    /* stars */
+    stars.forEach(s=>{
+      const pulse=s.a*(0.5+0.5*Math.sin(t*s.speed*100+s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(232,213,163,${pulse})`;
+      ctx.fill();
+    });
 
+    requestAnimationFrame(draw);
+  }
 
-    <!-- ─────────── COUNTDOWN ─────────── -->
-    <section class="s-cd" id="sCountdown">
-      <div class="sh reveal">
-        <span class="eyebrow">counting the moments</span>
-        <h2 class="stitle">Our Special Day</h2>
-        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
-      </div>
-      <div class="cd-grid reveal">
-        <div class="cd-unit"><div class="cd-n" id="cdD">00</div><div class="cd-l">Days</div></div>
-        <div class="cd-colon" aria-hidden="true">:</div>
-        <div class="cd-unit"><div class="cd-n" id="cdH">00</div><div class="cd-l">Hours</div></div>
-        <div class="cd-colon" aria-hidden="true">:</div>
-        <div class="cd-unit"><div class="cd-n" id="cdM">00</div><div class="cd-l">Minutes</div></div>
-        <div class="cd-colon" aria-hidden="true">:</div>
-        <div class="cd-unit"><div class="cd-n" id="cdS">00</div><div class="cd-l">Seconds</div></div>
-      </div>
-      <p class="cd-subtitle reveal">September 14, 2025 — 7:00 PM</p>
-    </section>
+  window.addEventListener('resize',resize);
+  resize();
+  draw();
+})();
 
+/* ─────────────────────────────────────────────────────────────
+   FLOATING PARTICLES
+───────────────────────────────────────────────────────────── */
+(function(){
+  const count=20;
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div');
+      p.className='particle';
+      const size=Math.random()*4+1;
+      p.style.cssText=`
+        width:${size}px;height:${size}px;
+        left:${Math.random()*100}%;
+        animation-duration:${Math.random()*20+15}s;
+        animation-delay:${Math.random()*-20}s;
+        opacity:${Math.random()*0.6+0.1};
+      `;
+      document.body.appendChild(p);
+    },i*300);
+  }
+})();
 
-    <!-- ─────────── DETAILS ─────────── -->
-    <section class="s-details" id="sDetails">
-      <div class="details-flex">
+/* ─────────────────────────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────────────────────────── */
+(function(){
+  const targets=document.querySelectorAll('.section, .closing');
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+  targets.forEach(el=>io.observe(el));
+})();
 
-        <div class="dcard reveal">
-          <div class="dcard-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M12 21s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-          </div>
-          <h3>Ceremony</h3>
-          <p class="dcard-time">5:00 PM</p>
-          <p class="dcard-venue">Grand Palace Hall</p>
-          <p class="dcard-addr">123 Wedding Boulevard<br>Your City</p>
-          <a class="dcard-map" href="https://maps.google.com/?q=your+venue" target="_blank" rel="noopener">Open in Maps →</a>
-        </div>
+/* ─────────────────────────────────────────────────────────────
+   PARALLAX mouse glow
+───────────────────────────────────────────────────────────── */
+(function(){
+  let mx=0,my=0,cx=0,cy=0;
+  const ray=document.createElement('div');
+  ray.style.cssText=`
+    position:fixed;width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle,rgba(201,169,110,0.06),transparent 70%);
+    pointer-events:none;z-index:0;
+    transform:translate(-50%,-50%);
+    transition:opacity 0.3s;
+  `;
+  document.body.appendChild(ray);
 
-        <div class="details-div reveal" aria-hidden="true">
-          <div class="dd-line"></div>
-          <svg viewBox="0 0 40 40" width="36" height="36">
-            <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="0.6"/>
-            <path d="M20 3L22 18L37 20L22 22L20 37L18 22L3 20L18 18Z" fill="currentColor" opacity="0.5"/>
-          </svg>
-          <div class="dd-line"></div>
-        </div>
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  window.addEventListener('touchmove',e=>{
+    if(e.touches[0]){mx=e.touches[0].clientX;my=e.touches[0].clientY;}
+  },{passive:true});
 
-        <div class="dcard reveal">
-          <div class="dcard-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-          <h3>Reception</h3>
-          <p class="dcard-time">7:00 PM</p>
-          <p class="dcard-venue">The Royal Gardens</p>
-          <p class="dcard-addr">456 Reception Avenue<br>Your City</p>
-          <a class="dcard-map" href="https://maps.google.com/?q=your+reception" target="_blank" rel="noopener">Open in Maps →</a>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ─────────── SCHEDULE ─────────── -->
-    <section class="s-sched" id="sSchedule">
-      <div class="sh reveal">
-        <span class="eyebrow">plan your visit</span>
-        <h2 class="stitle">The Day's Schedule</h2>
-        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
-      </div>
-      <ol class="timeline">
-        <li class="tl reveal">
-          <div class="tl-t">4:30 PM</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-c"><h4>Guest Arrival</h4><p>Welcome drinks &amp; canapés</p></div>
-        </li>
-        <li class="tl reveal">
-          <div class="tl-t">5:00 PM</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-c"><h4>Ceremony</h4><p>Exchange of vows &amp; rings</p></div>
-        </li>
-        <li class="tl reveal">
-          <div class="tl-t">6:00 PM</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-c"><h4>Cocktail Hour</h4><p>Live music &amp; photography</p></div>
-        </li>
-        <li class="tl reveal">
-          <div class="tl-t">7:00 PM</div>
-          <div class="tl-dot" aria-hidden="true"></div>
-          <div class="tl-c"><h4>Reception Dinner</h4><p>Dinner &amp; first dance</p></div>
-        </li>
-        <li class="tl reveal">
-          <div class="tl-t">10:00 PM</div>
-          <div class="tl-dot tl-dot-last" aria-hidden="true"></div>
-          <div class="tl-c"><h4>Celebration</h4><p>Dancing until midnight</p></div>
-        </li>
-      </ol>
-    </section>
-
-
-    <!-- ─────────── GALLERY ─────────── -->
-    <section class="s-gallery" id="sGallery">
-      <div class="sh reveal">
-        <span class="eyebrow">our journey together</span>
-        <h2 class="stitle">Love Story</h2>
-        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
-      </div>
-      <!-- 
-        To add your photos: replace the <div class="gph"> elements with:
-        <img src="your-photo.jpg" alt="Description">
-        inside each .gi div.
-      -->
-      <div class="gallery-grid">
-        <div class="gi gi-tall reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
-        <div class="gi reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
-        <div class="gi reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
-        <div class="gi gi-wide reveal"><div class="gph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" width="32"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Your photo here</span></div></div>
-      </div>
-    </section>
-
-
-    <!-- ─────────── RSVP ─────────── -->
-    <section class="s-rsvp" id="sRSVP">
-      <div class="rsvp-geo" aria-hidden="true"></div>
-      <div class="sh reveal">
-        <span class="eyebrow">we'd love your company</span>
-        <h2 class="stitle rsvp-stitle">RSVP</h2>
-        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
-        <p class="rsvp-by">Kindly reply by August 1, 2025</p>
-      </div>
-
-      <div class="rsvp-area">
-        <div class="rsvp-form reveal" id="rsvpForm">
-          <div class="fi"><input id="fName" type="text" class="fin" placeholder="Your Full Name" autocomplete="name"></div>
-          <div class="fi"><input id="fEmail" type="email" class="fin" placeholder="Email Address" autocomplete="email"></div>
-          <div class="fi"><input id="fPhone" type="tel" class="fin" placeholder="Phone Number (optional)" autocomplete="tel"></div>
-
-          <div class="fi attend-row">
-            <label class="ropt">
-              <input type="radio" name="attend" value="yes" id="rYes">
-              <span class="rbox" aria-hidden="true"></span>
-              <span>Joyfully accepts</span>
-            </label>
-            <label class="ropt">
-              <input type="radio" name="attend" value="no" id="rNo">
-              <span class="rbox" aria-hidden="true"></span>
-              <span>Regretfully declines</span>
-            </label>
-          </div>
-
-          <div class="fi" id="guestsRow">
-            <select id="fGuests" class="fin fsel">
-              <option value="">How many guests?</option>
-              <option value="1">Just me (1)</option>
-              <option value="2">2 guests</option>
-              <option value="3">3 guests</option>
-              <option value="4">4 guests</option>
-              <option value="5+">5 or more</option>
-            </select>
-          </div>
-
-          <div class="fi">
-            <textarea id="fMsg" class="fin ftarea" placeholder="A message for the couple… (optional)"></textarea>
-          </div>
-
-          <button class="rsvp-send" type="button" onclick="handleRSVP()">
-            <span>Send RSVP</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16">
-              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="rsvp-ok hidden" id="rsvpOK" role="status">
-          <div class="ok-star" aria-hidden="true">✦</div>
-          <h3>Thank You!</h3>
-          <p>Your RSVP has been received.<br>We can't wait to celebrate with you.</p>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ─────────── FOOTER ─────────── -->
-    <footer class="site-footer">
-      <div class="footer-geo" aria-hidden="true"></div>
-      <p class="ft-bism" lang="ar">بِسْمِ اللَّهِ</p>
-      <p class="ft-names">Layla &amp; Karim</p>
-      <p class="ft-date">September 14, 2025</p>
-      <blockquote class="ft-verse">
-        <p>"And among His signs is that He created for you mates from among yourselves,<br>
-           that you may find tranquility in them."</p>
-        <cite>— Quran 30:21</cite>
-      </blockquote>
-      <p class="ft-copy">Made with ♡ for our special day</p>
-    </footer>
-
-  </div><!-- /screenB -->
-
-  <script src="script.js"></script>
+  (function loop(){
+    cx+=(mx-cx)*0.08;
+    cy+=(my-cy)*0.08;
+    ray.style.left=cx+'px';
+    ray.style.top=cy+'px';
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
 </body>
 </html>
