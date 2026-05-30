@@ -1,1414 +1,1197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sofia & Marco — 14 September Two Thousand Twenty-Five</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0a1628;
-    --navy-mid: #0f2040;
-    --navy-light: #1a3060;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-pale: #f5e4b0;
-    --champagne: #f7edd8;
-    --ivory: #fdf6e8;
-    --white: #ffffff;
-    --font-display: 'Bodoni Moda', serif;
-    --font-body: 'Jost', sans-serif;
-    --font-italic: 'Cormorant Garamond', serif;
-    --transition: cubic-bezier(0.4, 0, 0.2, 1);
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seraphina & Alistair — A Wedding Celebration</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           ROOT VARIABLES — Obsidian & Pearl Palette
+           ============================================ */
+        :root {
+            --color-obsidian: #0a0e27;
+            --color-pearl: #f5f5f5;
+            --color-platinum: #c0c0c0;
+            --color-dark-gray: #1a1a2e;
+            --color-light-gray: #e8e8e8;
+            --color-accent-gold: #d4af37;
+            --color-accent-silver: #e0e0e0;
+            
+            --font-display: 'UnifrakturMaguntia', cursive;
+            --font-body: 'Sorts Mill Goudy', serif;
+            
+            --transition-smooth: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.3s ease-out;
+        }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* ============================================
+           GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-platinum) var(--color-obsidian);
+        }
 
-  body {
-    background: var(--navy);
-    color: var(--champagne);
-    font-family: var(--font-body);
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-    cursor: default;
-  }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-  /* ─── SCROLLBAR ─── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--navy); }
-  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+        ::-webkit-scrollbar-track {
+            background: var(--color-obsidian);
+        }
 
-  /* ─── CANVAS BACKGROUND ─── */
-  #bg-canvas {
-    position: fixed; inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-platinum);
+            border-radius: 4px;
+        }
 
-  /* ─── HOURGLASS REVEAL ─── */
-  #reveal {
-    position: fixed; inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--navy);
-    cursor: pointer;
-    overflow: hidden;
-  }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-silver);
+        }
 
-  #reveal-canvas {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-  }
+        body {
+            background-color: var(--color-obsidian);
+            color: var(--color-pearl);
+            font-family: var(--font-body);
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-  .reveal-text {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-  }
-  .reveal-text.show { opacity: 1; }
-  .reveal-text p {
-    font-family: var(--font-body);
-    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold-pale);
-  }
-  .reveal-text .big-names {
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    font-weight: 400;
-    color: var(--champagne);
-    line-height: 1;
-    margin: 0.4rem 0 0.6rem;
-  }
+        /* ============================================
+           CANVAS BACKGROUND — Rain on Glass Effect
+           ============================================ */
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-  /* ─── MAIN CONTENT ─── */
-  #main {
-    position: relative;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-  }
-  #main.visible { opacity: 1; }
+        /* ============================================
+           CONTENT WRAPPER
+           ============================================ */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
 
-  /* ─── GOLD DIVIDER ─── */
-  .gold-line {
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-    margin: 0 auto;
-  }
-  .gold-rule {
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
-    margin: 3rem auto;
-    max-width: 400px;
-  }
+        /* ============================================
+           REVEAL CURTAIN — Blooming Rose
+           ============================================ */
+        #reveal-curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-obsidian);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
 
-  /* ─── SECTION BASE ─── */
-  section {
-    position: relative;
-    z-index: 1;
-    padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 6vw, 6rem);
-  }
+        #reveal-curtain.hidden {
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeOut 0.8s ease-out forwards;
+        }
 
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.9s var(--transition), transform 0.9s var(--transition);
-  }
-  .reveal-on-scroll.in-view {
-    opacity: 1;
-    transform: none;
-  }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
 
-  /* ─── HERO ─── */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    align-items: center;
-    padding-top: clamp(5rem, 12vw, 10rem);
-  }
+        .rose-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-  .hero-left {
-    padding-right: clamp(2rem, 4vw, 5rem);
-    border-right: 1px solid rgba(201, 168, 76, 0.25);
-  }
+        .rose {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
 
-  .hero-label {
-    font-size: clamp(0.6rem, 1.2vw, 0.72rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .hero-label::before {
-    content: '';
-    display: inline-block;
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-  }
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: radial-gradient(ellipse at 30% 30%, #ff1493, #8b0000);
+            border-radius: 50% 50% 50% 0;
+            opacity: 0;
+            transform-origin: 50% 100%;
+        }
 
-  .hero-names {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 6.5rem);
-    font-weight: 400;
-    line-height: 0.95;
-    color: var(--champagne);
-    margin-bottom: 1.5rem;
-  }
-  .hero-names .and {
-    display: block;
-    font-family: var(--font-italic);
-    font-style: italic;
-    font-size: clamp(1.8rem, 4vw, 3.5rem);
-    font-weight: 300;
-    color: var(--gold-light);
-    margin: 0.3rem 0;
-  }
+        .petal:nth-child(1) { animation: bloomPetal 2s ease-out 0.1s forwards; transform: rotate(0deg) translateY(-60px); }
+        .petal:nth-child(2) { animation: bloomPetal 2s ease-out 0.2s forwards; transform: rotate(45deg) translateY(-60px); }
+        .petal:nth-child(3) { animation: bloomPetal 2s ease-out 0.3s forwards; transform: rotate(90deg) translateY(-60px); }
+        .petal:nth-child(4) { animation: bloomPetal 2s ease-out 0.4s forwards; transform: rotate(135deg) translateY(-60px); }
+        .petal:nth-child(5) { animation: bloomPetal 2s ease-out 0.5s forwards; transform: rotate(180deg) translateY(-60px); }
+        .petal:nth-child(6) { animation: bloomPetal 2s ease-out 0.6s forwards; transform: rotate(225deg) translateY(-60px); }
+        .petal:nth-child(7) { animation: bloomPetal 2s ease-out 0.7s forwards; transform: rotate(270deg) translateY(-60px); }
+        .petal:nth-child(8) { animation: bloomPetal 2s ease-out 0.8s forwards; transform: rotate(315deg) translateY(-60px); }
 
-  .hero-date-block {
-    margin-top: 2.5rem;
-  }
-  .hero-date-big {
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 10vw, 9rem);
-    font-weight: 700;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201, 168, 76, 0.5);
-    letter-spacing: -0.02em;
-  }
-  .hero-date-text {
-    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold-pale);
-    margin-top: 0.5rem;
-  }
+        @keyframes bloomPetal {
+            0% {
+                opacity: 0;
+                transform: rotate(var(--rotation)) translateY(0) scale(0.3);
+            }
+            60% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: rotate(var(--rotation)) translateY(-60px) scale(1);
+            }
+        }
 
-  .hero-right {
-    padding-left: clamp(2rem, 4vw, 5rem);
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
+        .rose-center {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #8b0000);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            animation: bloomCenter 2.5s ease-out forwards;
+        }
 
-  .hero-detail-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .detail-label {
-    font-size: clamp(0.58rem, 1vw, 0.68rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-  .detail-value {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
-    font-weight: 400;
-    color: var(--champagne);
-  }
-  .detail-sub {
-    font-size: clamp(0.75rem, 1.3vw, 0.9rem);
-    color: rgba(247, 237, 216, 0.6);
-    font-style: italic;
-    font-family: var(--font-italic);
-  }
+        @keyframes bloomCenter {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
 
-  /* ─── PHOTO GALLERY ─── */
-  #gallery {
-    background: var(--navy-mid);
-  }
+        .reveal-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 5;
+            opacity: 0;
+            animation: revealTextFade 3s ease-out 1.5s forwards;
+        }
 
-  .section-heading {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .section-heading .eyebrow {
-    font-size: clamp(0.6rem, 1.2vw, 0.72rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 1rem;
-  }
-  .section-heading h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.8rem);
-    font-weight: 400;
-    color: var(--champagne);
-    line-height: 1.1;
-  }
+        .reveal-text h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: var(--color-platinum);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
 
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: 300px 200px;
-    gap: 12px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .gallery-frame {
-    background: var(--navy-light);
-    border: 1px solid rgba(201, 168, 76, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-  .gallery-frame:first-child { grid-row: 1 / 3; }
-  .gallery-frame-inner {
-    text-align: center;
-    color: rgba(201, 168, 76, 0.4);
-  }
-  .gallery-frame-inner svg { width: 32px; height: 32px; opacity: 0.4; }
-  .gallery-frame-inner p {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 0.8rem;
-  }
+        .reveal-text p {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: var(--color-accent-silver);
+            font-style: italic;
+        }
 
-  /* ─── VENUE ─── */
-  #venue {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+        @keyframes revealTextFade {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0);
+            }
+        }
 
-  .venue-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: clamp(3rem, 6vw, 7rem);
-    align-items: start;
-  }
+        /* ============================================
+           SECTIONS — Timeline River Layout
+           ============================================ */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(2rem, 5vw, 4rem);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: sectionReveal 0.8s ease-out forwards;
+        }
 
-  .venue-number {
-    font-family: var(--font-display);
-    font-size: clamp(6rem, 14vw, 12rem);
-    font-weight: 700;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201, 168, 76, 0.15);
-    line-height: 1;
-    position: absolute;
-    top: -1rem;
-    left: -1rem;
-    pointer-events: none;
-    user-select: none;
-  }
+        @keyframes sectionReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-  .venue-left { position: relative; padding-top: 4rem; }
+        section.revealed {
+            animation: sectionReveal 0.8s ease-out forwards;
+        }
 
-  .venue-name {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 400;
-    color: var(--champagne);
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%);
+            border-radius: 20px;
+            padding: clamp(3rem, 8vw, 5rem);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid var(--color-platinum);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
 
-  .venue-city {
-    font-size: clamp(0.7rem, 1.3vw, 0.85rem);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        }
 
-  .venue-poem {
-    margin-top: 2.5rem;
-    font-family: var(--font-italic);
-    font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    font-weight: 300;
-    color: var(--gold-pale);
-    line-height: 1.6;
-    padding-left: 1.5rem;
-    border-left: 2px solid var(--gold);
-  }
+        .hero .ampersand {
+            display: inline-block;
+            margin: 0 1rem;
+            color: var(--color-accent-gold);
+            font-size: 1.2em;
+        }
 
-  .venue-right {}
+        .hero .date {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--color-accent-silver);
+            margin-top: 1.5rem;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
 
-  .venue-map-placeholder {
-    width: 100%;
-    aspect-ratio: 4/3;
-    background: var(--navy-light);
-    border: 1px solid rgba(201, 168, 76, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .venue-map-placeholder svg { opacity: 0.4; }
-  .venue-map-placeholder a {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201, 168, 76, 0.4);
-    padding-bottom: 2px;
-    transition: color 0.3s, border-color 0.3s;
-  }
-  .venue-map-placeholder a:hover { color: var(--gold-light); border-color: var(--gold-light); }
+        .hero .year {
+            display: block;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            color: var(--color-platinum);
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
 
-  /* ─── ORDER OF DAY ─── */
-  #order {
-    background: linear-gradient(to bottom, transparent, rgba(15,32,64,0.6), transparent);
-  }
+        /* ============================================
+           TIMELINE RIVER LAYOUT
+           ============================================ */
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
 
-  .order-inner { max-width: 700px; margin: 0 auto; }
+        .timeline-river {
+            position: relative;
+            padding: 2rem 0;
+        }
 
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-top: 3rem;
-    position: relative;
-  }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 80px;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
-    opacity: 0.4;
-  }
+        .timeline-river::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent 0%, var(--color-platinum) 50%, transparent 100%);
+            transform: translateX(-50%);
+        }
 
-  .timeline-item {
-    display: grid;
-    grid-template-columns: 80px 20px 1fr;
-    gap: 0 1.5rem;
-    align-items: start;
-    padding: 1.5rem 0;
-    position: relative;
-  }
-  .t-time {
-    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    text-align: right;
-    padding-top: 0.2rem;
-  }
-  .t-dot {
-    width: 8px; height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    margin-top: 0.4rem;
-    box-shadow: 0 0 8px var(--gold);
-    justify-self: center;
-  }
-  .t-content {}
-  .t-title {
-    font-family: var(--font-display);
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 400;
-    color: var(--champagne);
-    margin-bottom: 0.2rem;
-  }
-  .t-desc {
-    font-size: clamp(0.75rem, 1.3vw, 0.85rem);
-    color: rgba(247,237,216,0.55);
-    font-style: italic;
-    font-family: var(--font-italic);
-  }
+        .timeline-event {
+            margin-bottom: 3rem;
+            position: relative;
+            width: 100%;
+        }
 
-  /* ─── ATTIRE ─── */
-  #attire { max-width: 900px; margin: 0 auto; }
+        .timeline-event:nth-child(odd) .event-content {
+            margin-left: 0;
+            margin-right: auto;
+            text-align: right;
+            width: 45%;
+        }
 
-  .attire-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    margin-top: 2.5rem;
-  }
-  .attire-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(201,168,76,0.15);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .attire-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 60%);
-  }
-  .attire-card h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    font-weight: 400;
-    color: var(--champagne);
-    margin-bottom: 0.8rem;
-  }
-  .attire-card p {
-    font-size: clamp(0.78rem, 1.4vw, 0.9rem);
-    color: rgba(247,237,216,0.6);
-    line-height: 1.8;
-  }
-  .attire-card .attire-note {
-    display: block;
-    margin-top: 1rem;
-    font-family: var(--font-italic);
-    font-style: italic;
-    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
-    color: var(--gold-pale);
-  }
+        .timeline-event:nth-child(even) .event-content {
+            margin-left: auto;
+            margin-right: 0;
+            text-align: left;
+            width: 45%;
+        }
 
-  /* ─── RSVP ─── */
-  #rsvp {
-    text-align: center;
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--color-accent-gold);
+            border: 3px solid var(--color-obsidian);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
 
-  .rsvp-inner { max-width: 600px; margin: 0 auto; }
+        .event-content {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-platinum);
+            backdrop-filter: blur(10px);
+        }
 
-  .rsvp-deadline {
-    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-    display: block;
-  }
+        .event-content h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: var(--color-accent-gold);
+            margin-bottom: 0.5rem;
+        }
 
-  .rsvp-heading {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 400;
-    color: var(--champagne);
-    line-height: 1;
-    margin-bottom: 1.5rem;
-  }
+        .event-content .time {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--color-accent-silver);
+            margin-bottom: 0.8rem;
+        }
 
-  .rsvp-sub {
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    color: rgba(247,237,216,0.55);
-    margin-bottom: 3rem;
-    font-family: var(--font-italic);
-    font-style: italic;
-  }
+        .event-content p {
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+            color: var(--color-light-gray);
+            line-height: 1.6;
+        }
 
-  .btn-rsvp {
-    display: inline-block;
-    padding: 1.1rem 3.5rem;
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold-pale);
-    font-family: var(--font-body);
-    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
-    font-weight: 500;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: color 0.4s var(--transition);
-  }
-  .btn-rsvp::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    transform: translateX(-101%);
-    transition: transform 0.4s var(--transition);
-    z-index: -1;
-  }
-  .btn-rsvp:hover { color: var(--navy); }
-  .btn-rsvp:hover::before { transform: translateX(0); }
+        /* ============================================
+           VENUE SECTION
+           ============================================ */
+        .venue-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
 
-  /* ─── QUOTE / CLOSING ─── */
-  #quote {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
+        .venue-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: var(--color-platinum);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
 
-  .quote-mark {
-    font-family: var(--font-display);
-    font-size: 8rem;
-    line-height: 0.5;
-    color: var(--gold);
-    opacity: 0.3;
-    display: block;
-    margin-bottom: 2rem;
-  }
+        .venue-name {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: var(--color-accent-gold);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
 
-  .quote-text {
-    font-family: var(--font-italic);
-    font-style: italic;
-    font-size: clamp(1.3rem, 3vw, 2.2rem);
-    font-weight: 300;
-    color: var(--champagne);
-    line-height: 1.5;
-    margin-bottom: 2rem;
-  }
+        .venue-location {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--color-accent-silver);
+            margin-bottom: 1.5rem;
+        }
 
-  .quote-attr {
-    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
+        .venue-poem {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: var(--color-light-gray);
+            font-style: italic;
+            line-height: 1.8;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-platinum);
+        }
 
-  /* ─── ACCOMMODATION ─── */
-  #accommodation { max-width: 1100px; margin: 0 auto; }
+        /* ============================================
+           DRESS CODE SECTION
+           ============================================ */
+        .dress-code-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
 
-  .accom-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5px;
-    margin-top: 2.5rem;
-  }
+        .dress-code-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
 
-  .accom-card {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(201,168,76,0.12);
-    padding: 2.5rem;
-    transition: border-color 0.3s, background 0.3s;
-  }
-  .accom-card:hover {
-    border-color: rgba(201,168,76,0.35);
-    background: rgba(201,168,76,0.04);
-  }
-  .accom-card .card-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 1rem;
-  }
-  .accom-card h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 400;
-    color: var(--champagne);
-    margin-bottom: 0.5rem;
-  }
-  .accom-card p {
-    font-size: 0.85rem;
-    color: rgba(247,237,216,0.5);
-    line-height: 1.7;
-  }
-  .accom-card a {
-    display: inline-block;
-    margin-top: 1.2rem;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201,168,76,0.3);
-    padding-bottom: 2px;
-    transition: color 0.3s, border-color 0.3s;
-  }
-  .accom-card a:hover { color: var(--gold-light); border-color: var(--gold-light); }
+        .dress-code-card p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--color-light-gray);
+            margin-bottom: 1rem;
+        }
 
-  /* ─── GIFT ─── */
-  #gift { text-align: center; max-width: 600px; margin: 0 auto; }
-  #gift p {
-    font-family: var(--font-italic);
-    font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    color: rgba(247,237,216,0.7);
-    line-height: 1.8;
-  }
+        .dress-code-detail {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--color-accent-silver);
+            font-style: italic;
+        }
 
-  /* ─── MUSIC ─── */
-  #music {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 6vw, 6rem);
-  }
+        /* ============================================
+           RSVP SECTION
+           ============================================ */
+        .rsvp-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-accent-gold);
+            border-radius: 15px;
+            padding: clamp(2.5rem, 6vw, 4rem);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+        }
 
-  .music-note-symbol {
-    font-size: 3rem;
-    color: var(--gold);
-    opacity: 0.6;
-    display: block;
-    margin-bottom: 1.5rem;
-  }
+        .rsvp-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-accent-gold);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
 
-  .music-song {
-    font-family: var(--font-display);
-    font-size: clamp(1.3rem, 3vw, 2rem);
-    font-weight: 400;
-    color: var(--champagne);
-    margin-bottom: 0.5rem;
-  }
-  .music-artist {
-    font-size: clamp(0.7rem, 1.3vw, 0.85rem);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
+        .rsvp-deadline {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: var(--color-accent-silver);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
 
-  /* ─── FOOTER ─── */
-  footer {
-    text-align: center;
-    padding: 4rem 2rem 6rem;
-    position: relative;
-    z-index: 1;
-  }
-  .footer-names {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 4vw, 3rem);
-    font-weight: 400;
-    color: var(--champagne);
-    opacity: 0.4;
-  }
-  .footer-year {
-    font-size: 0.65rem;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--gold);
-    opacity: 0.5;
-    display: block;
-    margin-top: 1rem;
-  }
+        .rsvp-button {
+            display: inline-block;
+            padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
+            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
+            color: var(--color-obsidian);
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: var(--font-body);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+            border: none;
+        }
 
-  /* ─── MOBILE ─── */
-  @media (max-width: 768px) {
-    #hero {
-      grid-template-columns: 1fr;
-      padding-top: 5rem;
-      gap: 3rem;
-    }
-    .hero-left {
-      padding-right: 0;
-      border-right: none;
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-      padding-bottom: 3rem;
-    }
-    .hero-right { padding-left: 0; }
+        .rsvp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #e0c158 0%, #d4af37 100%);
+        }
 
-    .venue-layout { grid-template-columns: 1fr; }
-    .timeline::before { left: 60px; }
-    .timeline-item { grid-template-columns: 60px 16px 1fr; }
+        .rsvp-button:active {
+            transform: translateY(-1px);
+        }
 
-    .attire-grid { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-    .gallery-frame:first-child { grid-row: auto; grid-column: 1 / -1; }
+        /* ============================================
+           QUOTE SECTION
+           ============================================ */
+        .quote-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2.5rem, 6vw, 4rem);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
 
-    #reveal-canvas { display: none; }
-    #reveal { background: var(--navy); }
-  }
-</style>
+        .quote-card blockquote {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            color: var(--color-platinum);
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-display);
+            letter-spacing: 1px;
+        }
+
+        .quote-card .attribution {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--color-accent-silver);
+            font-style: normal;
+        }
+
+        /* ============================================
+           ACCOMMODATION SECTION
+           ============================================ */
+        .accommodation-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .accommodation-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .accommodation-item {
+            background: rgba(26, 26, 46, 0.6);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--color-accent-gold);
+        }
+
+        .accommodation-item h3 {
+            color: var(--color-accent-gold);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .accommodation-item p {
+            color: var(--color-light-gray);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .accommodation-link {
+            color: var(--color-accent-silver);
+            text-decoration: none;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+            transition: var(--transition-fast);
+        }
+
+        .accommodation-link:hover {
+            color: var(--color-accent-gold);
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           GALLERY SECTION
+           ============================================ */
+        .gallery-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .gallery-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 0 clamp(1rem, 3vw, 2rem);
+        }
+
+        .gallery-frame {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 3px solid var(--color-platinum);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            transition: var(--transition-smooth);
+        }
+
+        .gallery-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.2), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: var(--color-accent-silver);
+            font-style: italic;
+        }
+
+        /* ============================================
+           GIFT REGISTRY SECTION
+           ============================================ */
+        .gift-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .gift-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .gift-message {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: var(--color-light-gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .gift-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
+            color: var(--color-obsidian);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .gift-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+        }
+
+        /* ============================================
+           MAP SECTION
+           ============================================ */
+        .map-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .map-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .map-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
+            color: var(--color-obsidian);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .map-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+        }
+
+        /* ============================================
+           MUSIC SECTION
+           ============================================ */
+        .music-card {
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
+            border: 2px solid var(--color-platinum);
+            border-radius: 15px;
+            padding: clamp(2rem, 5vw, 3.5rem);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .music-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--color-platinum);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .music-info {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--color-accent-gold);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .music-artist {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--color-accent-silver);
+            font-style: italic;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            text-align: center;
+            padding: clamp(2rem, 4vw, 3rem);
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 39, 0.8) 100%);
+            color: var(--color-accent-silver);
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+            border-top: 1px solid var(--color-platinum);
+            margin-top: 3rem;
+        }
+
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            .timeline-river::before {
+                left: 20px;
+            }
+
+            .timeline-event:nth-child(odd) .event-content,
+            .timeline-event:nth-child(even) .event-content {
+                width: 100%;
+                margin-left: 60px;
+                margin-right: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
+           ANIMATION KEYFRAMES
+           ============================================ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
 </head>
 <body>
+    <!-- Canvas for Rain on Glass Ambient Background -->
+    <canvas id="ambient-canvas"></canvas>
 
-<!-- AMBIENT CANVAS -->
-<canvas id="bg-canvas"></canvas>
-
-<!-- HOURGLASS REVEAL -->
-<div id="reveal" role="button" aria-label="Tap to open invitation">
-  <canvas id="reveal-canvas"></canvas>
-  <div class="reveal-text" id="reveal-text">
-    <p>You are cordially invited</p>
-    <span class="big-names">Sofia & Marco</span>
-    <p>tap to open</p>
-  </div>
-</div>
-
-<!-- MAIN INVITATION -->
-<div id="main">
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-left reveal-on-scroll">
-      <div class="hero-label">Wedding Invitation</div>
-      <h1 class="hero-names">
-        Sofia<span class="and">&amp;</span>Marco
-      </h1>
-      <div class="hero-date-block">
-        <div class="hero-date-big">14</div>
-        <div class="hero-date-text">September — Two Thousand Twenty-Five</div>
-      </div>
-    </div>
-    <div class="hero-right reveal-on-scroll" style="transition-delay:0.2s">
-      <div class="hero-detail-item">
-        <span class="detail-label">Ceremony</span>
-        <span class="detail-value">03:00 PM</span>
-        <span class="detail-sub">Doors open at 2:30 PM</span>
-      </div>
-      <div class="hero-detail-item">
-        <span class="detail-label">Dinner</span>
-        <span class="detail-value">07:30 PM</span>
-        <span class="detail-sub">Followed by dancing & celebration</span>
-      </div>
-      <div class="hero-detail-item">
-        <span class="detail-label">Venue</span>
-        <span class="detail-value">Villa Dei Sogni</span>
-        <span class="detail-sub">Tuscany, Italy</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="gold-line reveal-on-scroll"></div>
-
-  <!-- GALLERY -->
-  <section id="gallery">
-    <div class="section-heading reveal-on-scroll">
-      <span class="eyebrow">Our Story</span>
-      <h2>A Love Worth Celebrating</h2>
-    </div>
-    <div class="gallery-grid reveal-on-scroll">
-      <div class="gallery-frame">
-        <div class="gallery-frame-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
-          </svg>
-          <p>Your Photo Here</p>
+    <!-- Reveal Curtain with Blooming Rose -->
+    <div id="reveal-curtain">
+        <div class="rose-container">
+            <div class="rose">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="rose-center"></div>
+            </div>
+            <div class="reveal-text">
+                <h1>A Love Story</h1>
+                <p>Click to begin</p>
+            </div>
         </div>
-      </div>
-      <div class="gallery-frame">
-        <div class="gallery-frame-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
-          </svg>
-          <p>Your Photo Here</p>
-        </div>
-      </div>
-      <div class="gallery-frame">
-        <div class="gallery-frame-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
-          </svg>
-          <p>Your Photo Here</p>
-        </div>
-      </div>
-      <div class="gallery-frame">
-        <div class="gallery-frame-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="3" y="3" width="18" height="18" rx="1"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>
-          </svg>
-          <p>Your Photo Here</p>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <hr class="gold-rule reveal-on-scroll">
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>
+                Seraphina Vane
+                <span class="ampersand">&</span>
+                Alistair Thorne
+            </h1>
+            <div class="date">
+                Twenty-Ninth of November
+                <span class="year">Two Thousand Twenty-Six</span>
+            </div>
+        </section>
 
-  <!-- VENUE -->
-  <section id="venue">
-    <div class="venue-layout">
-      <div class="venue-left reveal-on-scroll">
-        <div class="venue-number" aria-hidden="true">01</div>
-        <span class="hero-label" style="margin-bottom:1.5rem">The Venue</span>
-        <h2 class="venue-name">Villa<br>Dei Sogni</h2>
-        <div class="venue-city">Tuscany · Italy</div>
-        <blockquote class="venue-poem">
-          Where rolling hills catch golden light<br>and the ancient olive groves hold their breath
-        </blockquote>
-      </div>
-      <div class="venue-right reveal-on-scroll" style="transition-delay:0.15s">
-        <div class="venue-map-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-          <a href="https://maps.google.com" target="_blank" rel="noopener">Get Directions ↗</a>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
-          <div class="hero-detail-item">
-            <span class="detail-label">Address</span>
-            <span class="detail-value" style="font-size:clamp(0.9rem,1.6vw,1.1rem)">Via dei Cipressi 12, Siena</span>
-          </div>
-          <div class="hero-detail-item">
-            <span class="detail-label">Nearest City</span>
-            <span class="detail-value" style="font-size:clamp(0.9rem,1.6vw,1.1rem)">Florence Airport (60 km)</span>
-          </div>
-        </div>
-      </div>
+        <!-- Venue Section -->
+        <section>
+            <div class="venue-card">
+                <h2>The Venue</h2>
+                <div class="venue-name">The Obsidian Spire</div>
+                <div class="venue-location">Edinburgh, Scotland</div>
+                <div class="venue-poem">
+                    Beneath the ancient stone towers where shadows dance with starlight, where the mist of centuries clings to every whispered vow.
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section>
+            <div class="timeline-container">
+                <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--color-platinum); text-align: center; margin-bottom: 2rem; letter-spacing: 2px;">Order of the Day</h2>
+                <div class="timeline-river">
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="event-content">
+                            <h3>Ceremony Begins</h3>
+                            <div class="time">2:00 PM</div>
+                            <p>Join us as two souls unite in eternal devotion. The ceremony shall commence with the tolling of the ancient bells.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="event-content">
+                            <h3>Reception & Cocktails</h3>
+                            <div class="time">3:30 PM</div>
+                            <p>Celebrate with champagne and delicate canapés in the grand hall, where candlelight dances upon marble walls.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="event-content">
+                            <h3>Dinner Service</h3>
+                            <div class="time">6:00 PM</div>
+                            <p>A sumptuous feast prepared by master chefs, featuring courses that tell a story of culinary artistry and elegance.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="event-content">
+                            <h3>First Dance</h3>
+                            <div class="time">8:00 PM</div>
+                            <p>The night reaches its crescendo as the newlyweds take to the floor for their first dance as husband and wife.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="event-content">
+                            <h3>Dancing & Revelry</h3>
+                            <div class="time">8:30 PM – Midnight</div>
+                            <p>The celebration continues with music, laughter, and memories to be cherished for a lifetime.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dress Code Section -->
+        <section>
+            <div class="dress-code-card">
+                <h2>Dress Code</h2>
+                <p>Black Tie</p>
+                <div class="dress-code-detail">
+                    An evening of elegance and sophistication. Gentlemen are invited to wear tuxedos; ladies, gowns of refined beauty.
+                </div>
+            </div>
+        </section>
+
+        <!-- Accommodation Section -->
+        <section>
+            <div class="accommodation-card">
+                <h2>Where to Stay</h2>
+                <div class="accommodation-item">
+                    <h3>The Royal Mile Hotel</h3>
+                    <p>5-star luxury in the heart of Edinburgh's historic district</p>
+                    <p>£180–£250 per night</p>
+                    <a href="https://www.royalmilehotel.com" class="accommodation-link" target="_blank">Visit Website</a>
+                </div>
+                <div class="accommodation-item">
+                    <h3>Prestonfield House</h3>
+                    <p>Romantic boutique hotel with Gothic elegance</p>
+                    <p>£220–£350 per night</p>
+                    <a href="https://www.prestonfield.com" class="accommodation-link" target="_blank">Visit Website</a>
+                </div>
+                <div class="accommodation-item">
+                    <h3>The Scotsman Hotel</h3>
+                    <p>Luxury accommodation in a historic building</p>
+                    <p>£200–£300 per night</p>
+                    <a href="https://www.thescotsman.com" class="accommodation-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section>
+            <div class="gallery-container">
+                <h2 class="gallery-title">Moments in Time</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-frame">
+                        <div class="gallery-placeholder">Gallery Frame 1</div>
+                    </div>
+                    <div class="gallery-frame">
+                        <div class="gallery-placeholder">Gallery Frame 2</div>
+                    </div>
+                    <div class="gallery-frame">
+                        <div class="gallery-placeholder">Gallery Frame 3</div>
+                    </div>
+                    <div class="gallery-frame">
+                        <div class="gallery-placeholder">Gallery Frame 4</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gift Registry Section -->
+        <section>
+            <div class="gift-card">
+                <h2>Gifts & Registry</h2>
+                <div class="gift-message">
+                    Your presence is the greatest gift. However, should you wish to contribute to our future together, we have curated a registry of items close to our hearts.
+                </div>
+                <a href="https://www.example-registry.com" class="gift-link" target="_blank">View Registry</a>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section>
+            <div class="map-card">
+                <h2>Getting There</h2>
+                <p style="color: var(--color-light-gray); margin-bottom: 1.5rem; font-size: clamp(0.95rem, 2vw, 1.1rem);">
+                    The Obsidian Spire, Royal Mile, Edinburgh, EH1 3AA, Scotland
+                </p>
+                <a href="https://www.google.com/maps/place/Royal+Mile,+Edinburgh" class="map-link" target="_blank">View on Google Maps</a>
+            </div>
+        </section>
+
+        <!-- Music Section -->
+        <section>
+            <div class="music-card">
+                <h2>Our First Dance</h2>
+                <div class="music-info">Moonlight Sonata</div>
+                <div class="music-artist">Ludwig van Beethoven (Performed by Víkingur Ólafsson)</div>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section>
+            <div class="quote-card">
+                <blockquote>
+                    "Two souls, one heart, forever entwined in the dance of eternity."
+                </blockquote>
+                <div class="attribution">— A Vow of Eternal Love</div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section>
+            <div class="rsvp-card">
+                <h2>RSVP</h2>
+                <div class="rsvp-deadline">
+                    Please respond by the 15th of November, 2026
+                </div>
+                <a href="mailto:seraphina.alistair@obsidianspire.com" class="rsvp-button">Confirm Your Attendance</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>With love and gratitude, Seraphina & Alistair</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">The Obsidian Spire • Edinburgh • November 29, 2026</p>
+        </footer>
     </div>
-  </section>
 
-  <hr class="gold-rule reveal-on-scroll">
-
-  <!-- ORDER OF DAY -->
-  <section id="order">
-    <div class="order-inner">
-      <div class="section-heading reveal-on-scroll">
-        <span class="eyebrow">Programme</span>
-        <h2>Order of the Day</h2>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item reveal-on-scroll">
-          <span class="t-time">2:30</span>
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-title">Guests Arrive</div>
-            <div class="t-desc">Welcome drinks in the rose garden</div>
-          </div>
-        </div>
-        <div class="timeline-item reveal-on-scroll" style="transition-delay:0.1s">
-          <span class="t-time">3:00</span>
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-title">Ceremony</div>
-            <div class="t-desc">Exchange of vows beneath the pergola</div>
-          </div>
-        </div>
-        <div class="timeline-item reveal-on-scroll" style="transition-delay:0.2s">
-          <span class="t-time">4:00</span>
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-title">Cocktail Hour</div>
-            <div class="t-desc">Aperitivo, canapés & photography</div>
-          </div>
-        </div>
-        <div class="timeline-item reveal-on-scroll" style="transition-delay:0.3s">
-          <span class="t-time">7:30</span>
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-title">Wedding Dinner</div>
-            <div class="t-desc">Candlelit feast in the grand hall</div>
-          </div>
-        </div>
-        <div class="timeline-item reveal-on-scroll" style="transition-delay:0.4s">
-          <span class="t-time">9:30</span>
-          <div class="t-dot"></div>
-          <div class="t-content">
-            <div class="t-title">First Dance</div>
-            <div class="t-desc">Dancing until midnight under the stars</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="gold-rule reveal-on-scroll">
-
-  <!-- ATTIRE -->
-  <section id="attire">
-    <div class="section-heading reveal-on-scroll">
-      <span class="eyebrow">Dress Code</span>
-      <h2>Black Tie</h2>
-    </div>
-    <div class="attire-grid reveal-on-scroll" style="transition-delay:0.1s">
-      <div class="attire-card">
-        <h3>Gentlemen</h3>
-        <p>Black tuxedo or white dinner jacket. Black bow tie. Patent leather or polished black oxford shoes.</p>
-        <span class="attire-note">No lounge suits, please.</span>
-      </div>
-      <div class="attire-card">
-        <h3>Ladies</h3>
-        <p>Floor-length gown or sophisticated formal dress. Jewels, heels, and elegance encouraged.</p>
-        <span class="attire-note">Please avoid white, ivory, or cream.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- RSVP -->
-  <section id="rsvp">
-    <div class="rsvp-inner reveal-on-scroll">
-      <span class="rsvp-deadline">RSVP by 1st August 2025</span>
-      <h2 class="rsvp-heading">Will You<br>Join Us?</h2>
-      <p class="rsvp-sub">Kindly reply at your earliest convenience.<br>We hope to celebrate with you.</p>
-      <a href="mailto:rsvp@sofiaandmarco.com" class="btn-rsvp">Confirm Attendance</a>
-    </div>
-  </section>
-
-  <!-- QUOTE -->
-  <section id="quote">
-    <div class="reveal-on-scroll">
-      <span class="quote-mark" aria-hidden="true">"</span>
-      <p class="quote-text">Whatever our souls are made of,<br>his and mine are the same.</p>
-      <span class="quote-attr">— Emily Brontë, Wuthering Heights</span>
-    </div>
-  </section>
-
-  <hr class="gold-rule reveal-on-scroll">
-
-  <!-- ACCOMMODATION -->
-  <section id="accommodation">
-    <div class="section-heading reveal-on-scroll">
-      <span class="eyebrow">Stay With Us</span>
-      <h2>Where to Rest</h2>
-    </div>
-    <div class="accom-grid">
-      <div class="accom-card reveal-on-scroll">
-        <span class="card-label">On-site · Boutique</span>
-        <h3>Villa Dei Sogni<br>Guestrooms</h3>
-        <p>Twelve beautifully appointed rooms within the villa itself. The most intimate option, available exclusively for wedding guests.</p>
-        <p style="margin-top:0.8rem;font-size:0.75rem;color:var(--gold-pale)">From €280/night</p>
-        <a href="mailto:rsvp@sofiaandmarco.com">Enquire for availability ↗</a>
-      </div>
-      <div class="accom-card reveal-on-scroll" style="transition-delay:0.1s">
-        <span class="card-label">5 Min Drive · Luxury</span>
-        <h3>Hotel Certosa<br>di Maggiano</h3>
-        <p>A converted 14th-century Carthusian monastery offering serene countryside luxury. Preferred rate available for our guests.</p>
-        <p style="margin-top:0.8rem;font-size:0.75rem;color:var(--gold-pale)">From €320/night</p>
-        <a href="https://www.certosadimaggiano.com" target="_blank" rel="noopener">Visit Hotel ↗</a>
-      </div>
-      <div class="accom-card reveal-on-scroll" style="transition-delay:0.2s">
-        <span class="card-label">Siena Centre · Classic</span>
-        <h3>Grand Hotel<br>Continental</h3>
-        <p>Elegant frescoed palace hotel in the heart of Siena. An ideal base for exploring the city before and after the celebration.</p>
-        <p style="margin-top:0.8rem;font-size:0.75rem;color:var(--gold-pale)">From €180/night</p>
-        <a href="https://www.grandhotelcontinentalsiena.com" target="_blank" rel="noopener">Book Direct ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <hr class="gold-rule reveal-on-scroll">
-
-  <!-- GIFT -->
-  <section id="gift">
-    <div class="section-heading reveal-on-scroll">
-      <span class="eyebrow">Gift Registry</span>
-      <h2>A Note on Gifts</h2>
-    </div>
-    <div class="reveal-on-scroll" style="transition-delay:0.1s">
-      <p>Your presence on our wedding day is the only gift we could wish for. Should you wish to give something, a contribution to our honeymoon fund would be gratefully received.</p>
-      <a href="mailto:rsvp@sofiaandmarco.com" style="display:inline-block;margin-top:2rem;font-size:0.68rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px">Honeymoon Fund ↗</a>
-    </div>
-  </section>
-
-  <!-- MUSIC -->
-  <section id="music">
-    <div class="reveal-on-scroll" style="text-align:center">
-      <span class="music-note-symbol">♪</span>
-      <span style="display:block;font-size:0.65rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem">Our First Dance</span>
-      <div class="music-song">La Vie en Rose</div>
-      <div class="music-artist">Édith Piaf</div>
-    </div>
-  </section>
-
-  <hr class="gold-rule reveal-on-scroll">
-
-  <footer>
-    <div class="gold-line" style="margin-bottom:2rem"></div>
-    <div class="footer-names reveal-on-scroll">Sofia & Marco</div>
-    <span class="footer-year reveal-on-scroll">XIV September MMXXV · Tuscany, Italy</span>
-  </footer>
-
-</div><!-- /main -->
-
-<script>
-/* ═══════════════════════════════════════════
-   1. AMBIENT BACKGROUND — FIREFLIES
-═══════════════════════════════════════════ */
-const bgCanvas = document.getElementById('bg-canvas');
-const bgCtx = bgCanvas.getContext('2d');
-let fireflies = [];
-
-function resizeBg() {
-  bgCanvas.width = window.innerWidth;
-  bgCanvas.height = window.innerHeight;
-}
-resizeBg();
-window.addEventListener('resize', resizeBg);
-
-function createFirefly() {
-  return {
-    x: Math.random() * bgCanvas.width,
-    y: Math.random() * bgCanvas.height,
-    r: Math.random() * 2 + 0.8,
-    alpha: 0,
-    maxAlpha: Math.random() * 0.6 + 0.15,
-    phase: Math.random() * Math.PI * 2,
-    speed: Math.random() * 0.4 + 0.1,
-    dx: (Math.random() - 0.5) * 0.4,
-    dy: (Math.random() - 0.5) * 0.4,
-    state: 'fadein',
-    life: 0,
-    maxLife: Math.random() * 300 + 150
-  };
-}
-
-for (let i = 0; i < 55; i++) {
-  const f = createFirefly();
-  f.life = Math.random() * f.maxLife;
-  f.alpha = f.maxAlpha * 0.5;
-  fireflies.push(f);
-}
-
-function animateBg(ts) {
-  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-
-  // subtle gold vignette
-  const vg = bgCtx.createRadialGradient(
-    bgCanvas.width/2, bgCanvas.height/2, bgCanvas.height*0.2,
-    bgCanvas.width/2, bgCanvas.height/2, bgCanvas.height*0.85
-  );
-  vg.addColorStop(0, 'rgba(201,168,76,0.02)');
-  vg.addColorStop(1, 'rgba(0,0,0,0.18)');
-  bgCtx.fillStyle = vg;
-  bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-
-  fireflies.forEach((f, i) => {
-    f.life++;
-    const t = ts * 0.001;
-    f.x += f.dx + Math.sin(t * f.speed + f.phase) * 0.3;
-    f.y += f.dy + Math.cos(t * f.speed * 0.7 + f.phase) * 0.2;
-
-    if (f.x < 0) f.x = bgCanvas.width;
-    if (f.x > bgCanvas.width) f.x = 0;
-    if (f.y < 0) f.y = bgCanvas.height;
-    if (f.y > bgCanvas.height) f.y = 0;
-
-    const pulse = Math.sin(t * f.speed * 2 + f.phase);
-    const currentAlpha = f.maxAlpha * (0.5 + 0.5 * pulse);
-
-    // glow
-    const grd = bgCtx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 6);
-    grd.addColorStop(0, `rgba(228,210,120,${currentAlpha})`);
-    grd.addColorStop(0.4, `rgba(201,168,76,${currentAlpha * 0.4})`);
-    grd.addColorStop(1, 'rgba(201,168,76,0)');
-    bgCtx.beginPath();
-    bgCtx.arc(f.x, f.y, f.r * 6, 0, Math.PI * 2);
-    bgCtx.fillStyle = grd;
-    bgCtx.fill();
-
-    // core dot
-    bgCtx.beginPath();
-    bgCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-    bgCtx.fillStyle = `rgba(240,225,160,${currentAlpha * 1.5})`;
-    bgCtx.fill();
-
-    if (f.life > f.maxLife) {
-      fireflies[i] = createFirefly();
-    }
-  });
-
-  requestAnimationFrame(animateBg);
-}
-requestAnimationFrame(animateBg);
-
-
-/* ═══════════════════════════════════════════
-   2. HOURGLASS REVEAL
-═══════════════════════════════════════════ */
-const revealEl = document.getElementById('reveal');
-const revCanvas = document.getElementById('reveal-canvas');
-const revCtx = revCanvas.getContext('2d');
-const revealText = document.getElementById('reveal-text');
-let revW, revH;
-let sandParticles = [];
-let revealState = 'idle'; // idle | filling | dropping | done
-let fillProgress = 0;
-let dropProgress = 0;
-let revealOpened = false;
-
-function resizeReveal() {
-  revW = revCanvas.width = window.innerWidth;
-  revH = revCanvas.height = window.innerHeight;
-}
-resizeReveal();
-window.addEventListener('resize', resizeReveal);
-
-// Draw hourglass outline
-function drawHourglass(ctx, cx, cy, w, h) {
-  ctx.beginPath();
-  ctx.moveTo(cx - w/2, cy - h/2);
-  ctx.lineTo(cx + w/2, cy - h/2);
-  ctx.lineTo(cx + w*0.05, cy);
-  ctx.lineTo(cx + w/2, cy + h/2);
-  ctx.lineTo(cx - w/2, cy + h/2);
-  ctx.lineTo(cx - w*0.05, cy);
-  ctx.closePath();
-}
-
-// Hourglass path for clipping
-function hourglassPath(ctx, cx, cy, w, h) {
-  ctx.beginPath();
-  ctx.moveTo(cx - w/2, cy - h/2);
-  ctx.lineTo(cx + w/2, cy - h/2);
-  ctx.lineTo(cx + w*0.05, cy);
-  ctx.lineTo(cx + w/2, cy + h/2);
-  ctx.lineTo(cx - w/2, cy + h/2);
-  ctx.lineTo(cx - w*0.05, cy);
-  ctx.closePath();
-}
-
-// Animate fill phase
-let fillStartTime = null;
-let dropStartTime = null;
-let shatterParticles = [];
-let shatterStartTime = null;
-
-function revealLoop(ts) {
-  if (revealOpened) return;
-
-  revCtx.clearRect(0, 0, revW, revH);
-
-  const cx = revW / 2;
-  const cy = revH / 2;
-  const hgW = Math.min(revW * 0.35, 220);
-  const hgH = Math.min(revH * 0.6, 420);
-
-  if (revealState === 'idle') {
-    // Show hourglass outline pulsing
-    const pulse = 0.5 + 0.5 * Math.sin(ts * 0.002);
-    revCtx.save();
-    drawHourglass(revCtx, cx, cy, hgW, hgH);
-    revCtx.strokeStyle = `rgba(201,168,76,${0.3 + pulse * 0.3})`;
-    revCtx.lineWidth = 1.5;
-    revCtx.stroke();
-    revCtx.restore();
-
-    // Gold dust particles floating up
-    revCtx.save();
-    for (let i = 0; i < 30; i++) {
-      const ox = Math.sin(i * 137.5 + ts * 0.0005) * (hgW * 0.3);
-      const oy = ((ts * 0.02 * (0.3 + i * 0.03)) % (hgH * 0.8)) - hgH * 0.4;
-      const alpha = Math.min(1, Math.sin(oy / (hgH * 0.4) * Math.PI) * 0.7);
-      revCtx.beginPath();
-      revCtx.arc(cx + ox, cy + oy, 1.2, 0, Math.PI * 2);
-      revCtx.fillStyle = `rgba(201,168,76,${alpha * 0.5})`;
-      revCtx.fill();
-    }
-    revCtx.restore();
-
-    if (!revealText.classList.contains('show')) revealText.classList.add('show');
-
-  } else if (revealState === 'filling') {
-    if (!fillStartTime) fillStartTime = ts;
-    fillProgress = Math.min(1, (ts - fillStartTime) / 1800);
-
-    revCtx.save();
-    // Clip to upper hourglass half
-    revCtx.beginPath();
-    revCtx.moveTo(cx - hgW/2, cy - hgH/2);
-    revCtx.lineTo(cx + hgW/2, cy - hgH/2);
-    revCtx.lineTo(cx + hgW*0.05, cy);
-    revCtx.lineTo(cx - hgW*0.05, cy);
-    revCtx.closePath();
-    revCtx.clip();
-
-    // Fill top half with gold gradient
-    const topFillY = cy - hgH/2 + (cy - cy) * fillProgress; // top of top half
-    const fillBottomY = cy; // bottom of top half is cy
-    const fillTopY = cy - hgH/2 + (hgH/2) * (1 - fillProgress);
-
-    const fillGrad = revCtx.createLinearGradient(0, fillTopY, 0, fillBottomY);
-    fillGrad.addColorStop(0, 'rgba(201,168,76,0.9)');
-    fillGrad.addColorStop(0.5, 'rgba(232,201,122,0.95)');
-    fillGrad.addColorStop(1, 'rgba(180,140,50,0.95)');
-    revCtx.fillStyle = fillGrad;
-    revCtx.fillRect(cx - hgW/2, fillTopY, hgW, fillBottomY - fillTopY);
-
-    // Sand shimmer particles
-    for (let i = 0; i < 20; i++) {
-      const px = cx + (Math.random() - 0.5) * hgW * 0.6;
-      const py = fillTopY + Math.random() * (fillBottomY - fillTopY) * 0.3;
-      revCtx.beginPath();
-      revCtx.arc(px, py, Math.random() * 1.5, 0, Math.PI * 2);
-      revCtx.fillStyle = 'rgba(255,245,200,0.6)';
-      revCtx.fill();
-    }
-    revCtx.restore();
-
-    // Draw hourglass border on top
-    revCtx.save();
-    drawHourglass(revCtx, cx, cy, hgW, hgH);
-    revCtx.strokeStyle = 'rgba(201,168,76,0.7)';
-    revCtx.lineWidth = 1.5;
-    revCtx.stroke();
-    revCtx.restore();
-
-    if (fillProgress >= 1) {
-      revealState = 'dropping';
-    }
-
-  } else if (revealState === 'dropping') {
-    if (!dropStartTime) dropStartTime = ts;
-    dropProgress = Math.min(1, (ts - dropStartTime) / 1200);
-
-    // The sand "drops" to bottom half
-    const eased = 1 - Math.pow(1 - dropProgress, 3);
-
-    revCtx.save();
-
-    // Top half empties
-    const topRemaining = 1 - eased;
-    if (topRemaining > 0) {
-      revCtx.save();
-      revCtx.beginPath();
-      revCtx.moveTo(cx - hgW/2, cy - hgH/2);
-      revCtx.lineTo(cx + hgW/2, cy - hgH/2);
-      revCtx.lineTo(cx + hgW*0.05, cy);
-      revCtx.lineTo(cx - hgW*0.05, cy);
-      revCtx.closePath();
-      revCtx.clip();
-      const topFill = cy - hgH/2 + (hgH/2) * (1 - topRemaining);
-      const fg = revCtx.createLinearGradient(0, topFill, 0, cy);
-      fg.addColorStop(0, 'rgba(201,168,76,0.9)');
-      fg.addColorStop(1, 'rgba(180,140,50,0.95)');
-      revCtx.fillStyle = fg;
-      revCtx.fillRect(cx - hgW/2, topFill, hgW, cy - topFill);
-      revCtx.restore();
-    }
-
-    // Bottom half fills
-    if (eased > 0) {
-      revCtx.save();
-      revCtx.beginPath();
-      revCtx.moveTo(cx - hgW*0.05, cy);
-      revCtx.lineTo(cx + hgW*0.05, cy);
-      revCtx.lineTo(cx + hgW/2, cy + hgH/2);
-      revCtx.lineTo(cx - hgW/2, cy + hgH/2);
-      revCtx.closePath();
-      revCtx.clip();
-      const botFillTop = cy + hgH/2 - (hgH/2) * eased;
-      const bg2 = revCtx.createLinearGradient(0, botFillTop, 0, cy + hgH/2);
-      bg2.addColorStop(0, 'rgba(180,140,50,0.9)');
-      bg2.addColorStop(1, 'rgba(201,168,76,0.95)');
-      revCtx.fillStyle = bg2;
-      revCtx.fillRect(cx - hgW/2, botFillTop, hgW, cy + hgH/2 - botFillTop);
-      revCtx.restore();
-    }
-
-    // Falling sand stream
-    const streamAlpha = Math.sin(dropProgress * Math.PI);
-    for (let i = 0; i < 8; i++) {
-      const py = cy + (cy - cy) + i * 12 * (1 - dropProgress);
-      const px = cx + (Math.random() - 0.5) * 6;
-      revCtx.beginPath();
-      revCtx.arc(px, py, 1, 0, Math.PI * 2);
-      revCtx.fillStyle = `rgba(228,201,120,${streamAlpha * 0.8})`;
-      revCtx.fill();
-    }
-
-    revCtx.restore();
-
-    // Hourglass border
-    revCtx.save();
-    drawHourglass(revCtx, cx, cy, hgW, hgH);
-    revCtx.strokeStyle = 'rgba(201,168,76,0.7)';
-    revCtx.lineWidth = 1.5;
-    revCtx.stroke();
-    revCtx.restore();
-
-    if (dropProgress >= 1) {
-      revealState = 'shattering';
-      shatterStartTime = ts;
-      buildShatterPieces(cx, cy, hgW, hgH);
-    }
-
-  } else if (revealState === 'shattering') {
-    const elapsed = ts - shatterStartTime;
-    const sProgress = Math.min(1, elapsed / 900);
-
-    // Draw remaining pieces
-    shatterParticles.forEach(p => {
-      const t = Math.min(1, elapsed / (p.delay + 600));
-      if (t <= 0) return;
-      const et = Math.max(0, t - p.delay / 900);
-      const ex = p.x + p.vx * et * 300;
-      const ey = p.y + p.vy * et * 300 + 200 * et * et;
-      const alpha = 1 - et;
-      if (alpha <= 0) return;
-
-      revCtx.save();
-      revCtx.globalAlpha = alpha;
-      revCtx.translate(ex, ey);
-      revCtx.rotate(p.rot + et * p.rotSpeed);
-      revCtx.fillStyle = `rgba(201,168,76,${0.8 * alpha})`;
-      revCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-      revCtx.restore();
-    });
-
-    if (sProgress >= 1) {
-      openReveal();
-    }
-  }
-
-  if (!revealOpened) requestAnimationFrame(revealLoop);
-}
-requestAnimationFrame(revealLoop);
-
-function buildShatterPieces(cx, cy, hw, hh) {
-  shatterParticles = [];
-  const count = 40;
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2;
-    const r = Math.random() * Math.min(hw, hh) * 0.6;
-    shatterParticles.push({
-      x: cx + Math.cos(angle) * r,
-      y: cy + Math.sin(angle) * r,
-      w: Math.random() * 20 + 8,
-      h: Math.random() * 8 + 3,
-      vx: Math.cos(angle) * (0.5 + Math.random()),
-      vy: Math.sin(angle) * (0.5 + Math.random()) - 0.5,
-      rot: Math.random() * Math.PI,
-      rotSpeed: (Math.random() - 0.5) * 4,
-      delay: Math.random() * 0.3
-    });
-  }
-}
-
-function openReveal() {
-  revealOpened = true;
-  revealEl.style.transition = 'opacity 1.2s ease';
-  revealEl.style.opacity = '0';
-  document.getElementById('main').classList.add('visible');
-  setTimeout(() => {
-    revealEl.style.display = 'none';
-  }, 1300);
-}
-
-function startReveal() {
-  if (revealState !== 'idle') return;
-  revealState = 'filling';
-  revealText.style.transition = 'opacity 0.5s ease';
-  revealText.style.opacity = '0';
-}
-
-revealEl.addEventListener('click', startReveal);
-revealEl.addEventListener('touchend', (e) => { e.preventDefault(); startReveal(); }, { passive: false });
-
-
-/* ═══════════════════════════════════════════
-   3. INTERSECTION OBSERVER — SCROLL REVEALS
-═══════════════════════════════════════════ */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in-view');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-</script>
+    <!-- JavaScript -->
+    <script>
+        // ============================================
+        // RAIN ON GLASS AMBIENT BACKGROUND
+        // ============================================
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const raindrops = [];
+
+        class Raindrop {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.width = Math.random() * 3 + 1;
+                this.height = Math.random() * 15 + 10;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.speed = Math.random() * 2 + 1;
+                this.drift = (Math.random() - 0.5) * 0.5;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += this.drift;
+
+                if (this.y > canvas.height) {
+                    this.y = -this.height;
+                    this.x = Math.random() * canvas.width;
+                }
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+            }
+
+            draw() {
+                ctx.strokeStyle = `rgba(192, 192, 192, ${this.opacity})`;
+                ctx.lineWidth = this.width;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.drift * 2, this.y + this.height);
+                ctx.stroke();
+            }
+        }
+
+        // Initialize raindrops
+        for (let i = 0; i < 80; i++) {
+            raindrops.push(new Raindrop());
+        }
+
+        function animateRain() {
+            ctx.fillStyle = 'rgba(10, 14, 39, 0.02)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            raindrops.forEach(drop => {
+                drop.update();
+                drop.draw();
+            });
+
+            requestAnimationFrame(animateRain);
+        }
+
+        animateRain();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ============================================
+        // REVEAL CURTAIN INTERACTION
+        // ============================================
+        const revealCurtain = document.getElementById('reveal-curtain');
+
+        function hideReveal() {
+            revealCurtain.classList.add('hidden');
+            setTimeout(() => {
+                revealCurtain.style.display = 'none';
+            }, 800);
+        }
+
+        revealCurtain.addEventListener('click', hideReveal);
+        revealCurtain.addEventListener('touchend', hideReveal);
+
+        // Auto-hide after 5 seconds
+        setTimeout(hideReveal, 5000);
+
+        // ============================================
+        // SCROLL REVEAL ANIMATIONS
+        // ============================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // ============================================
+        // SMOOTH SCROLL BEHAVIOR
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ============================================
+        // AMBIENT LIGHT EFFECTS
+        // ============================================
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtle light effect following cursor
+            const lightX = x * 100;
+            const lightY = y * 100;
+            
+            document.documentElement.style.setProperty('--light-x', lightX + '%');
+            document.documentElement.style.setProperty('--light-y', lightY + '%');
+        });
+    </script>
 </body>
 </html>
