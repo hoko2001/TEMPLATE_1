@@ -1,1197 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seraphina & Alistair — A Wedding Celebration</title>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Sorts+Mill+Goudy&display=swap" rel="stylesheet">
-    <style>
-        /* ============================================
-           ROOT VARIABLES — Obsidian & Pearl Palette
-           ============================================ */
-        :root {
-            --color-obsidian: #0a0e27;
-            --color-pearl: #f5f5f5;
-            --color-platinum: #c0c0c0;
-            --color-dark-gray: #1a1a2e;
-            --color-light-gray: #e8e8e8;
-            --color-accent-gold: #d4af37;
-            --color-accent-silver: #e0e0e0;
-            
-            --font-display: 'UnifrakturMaguntia', cursive;
-            --font-body: 'Sorts Mill Goudy', serif;
-            
-            --transition-smooth: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-fast: all 0.3s ease-out;
-        }
-
-        /* ============================================
-           GLOBAL STYLES
-           ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: var(--color-platinum) var(--color-obsidian);
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--color-obsidian);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--color-platinum);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--color-accent-silver);
-        }
-
-        body {
-            background-color: var(--color-obsidian);
-            color: var(--color-pearl);
-            font-family: var(--font-body);
-            line-height: 1.8;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* ============================================
-           CANVAS BACKGROUND — Rain on Glass Effect
-           ============================================ */
-        #ambient-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* ============================================
-           CONTENT WRAPPER
-           ============================================ */
-        .content-wrapper {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* ============================================
-           REVEAL CURTAIN — Blooming Rose
-           ============================================ */
-        #reveal-curtain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-obsidian);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #reveal-curtain.hidden {
-            pointer-events: none;
-            opacity: 0;
-            animation: fadeOut 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-        .rose-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .rose {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .petal {
-            position: absolute;
-            width: 40px;
-            height: 60px;
-            background: radial-gradient(ellipse at 30% 30%, #ff1493, #8b0000);
-            border-radius: 50% 50% 50% 0;
-            opacity: 0;
-            transform-origin: 50% 100%;
-        }
-
-        .petal:nth-child(1) { animation: bloomPetal 2s ease-out 0.1s forwards; transform: rotate(0deg) translateY(-60px); }
-        .petal:nth-child(2) { animation: bloomPetal 2s ease-out 0.2s forwards; transform: rotate(45deg) translateY(-60px); }
-        .petal:nth-child(3) { animation: bloomPetal 2s ease-out 0.3s forwards; transform: rotate(90deg) translateY(-60px); }
-        .petal:nth-child(4) { animation: bloomPetal 2s ease-out 0.4s forwards; transform: rotate(135deg) translateY(-60px); }
-        .petal:nth-child(5) { animation: bloomPetal 2s ease-out 0.5s forwards; transform: rotate(180deg) translateY(-60px); }
-        .petal:nth-child(6) { animation: bloomPetal 2s ease-out 0.6s forwards; transform: rotate(225deg) translateY(-60px); }
-        .petal:nth-child(7) { animation: bloomPetal 2s ease-out 0.7s forwards; transform: rotate(270deg) translateY(-60px); }
-        .petal:nth-child(8) { animation: bloomPetal 2s ease-out 0.8s forwards; transform: rotate(315deg) translateY(-60px); }
-
-        @keyframes bloomPetal {
-            0% {
-                opacity: 0;
-                transform: rotate(var(--rotation)) translateY(0) scale(0.3);
-            }
-            60% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 1;
-                transform: rotate(var(--rotation)) translateY(-60px) scale(1);
-            }
-        }
-
-        .rose-center {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: radial-gradient(circle at 30% 30%, #ff69b4, #8b0000);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            animation: bloomCenter 2.5s ease-out forwards;
-        }
-
-        @keyframes bloomCenter {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        .reveal-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 5;
-            opacity: 0;
-            animation: revealTextFade 3s ease-out 1.5s forwards;
-        }
-
-        .reveal-text h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 8vw, 4rem);
-            color: var(--color-platinum);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .reveal-text p {
-            font-size: clamp(0.9rem, 2vw, 1.2rem);
-            color: var(--color-accent-silver);
-            font-style: italic;
-        }
-
-        @keyframes revealTextFade {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) translateY(0);
-            }
-        }
-
-        /* ============================================
-           SECTIONS — Timeline River Layout
-           ============================================ */
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: clamp(2rem, 5vw, 4rem);
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: sectionReveal 0.8s ease-out forwards;
-        }
-
-        @keyframes sectionReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        section.revealed {
-            animation: sectionReveal 0.8s ease-out forwards;
-        }
-
-        /* ============================================
-           HERO SECTION
-           ============================================ */
-        .hero {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%);
-            border-radius: 20px;
-            padding: clamp(3rem, 8vw, 5rem);
-            max-width: 800px;
-            margin: 0 auto;
-            border: 2px solid var(--color-platinum);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .hero h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 10vw, 5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1rem;
-            letter-spacing: 3px;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        }
-
-        .hero .ampersand {
-            display: inline-block;
-            margin: 0 1rem;
-            color: var(--color-accent-gold);
-            font-size: 1.2em;
-        }
-
-        .hero .date {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--color-accent-silver);
-            margin-top: 1.5rem;
-            font-style: italic;
-            letter-spacing: 1px;
-        }
-
-        .hero .year {
-            display: block;
-            font-size: clamp(0.9rem, 2vw, 1.3rem);
-            color: var(--color-platinum);
-            margin-top: 0.5rem;
-            opacity: 0.8;
-        }
-
-        /* ============================================
-           TIMELINE RIVER LAYOUT
-           ============================================ */
-        .timeline-container {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 0;
-        }
-
-        .timeline-river {
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .timeline-river::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, transparent 0%, var(--color-platinum) 50%, transparent 100%);
-            transform: translateX(-50%);
-        }
-
-        .timeline-event {
-            margin-bottom: 3rem;
-            position: relative;
-            width: 100%;
-        }
-
-        .timeline-event:nth-child(odd) .event-content {
-            margin-left: 0;
-            margin-right: auto;
-            text-align: right;
-            width: 45%;
-        }
-
-        .timeline-event:nth-child(even) .event-content {
-            margin-left: auto;
-            margin-right: 0;
-            text-align: left;
-            width: 45%;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 16px;
-            height: 16px;
-            background: var(--color-accent-gold);
-            border: 3px solid var(--color-obsidian);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-        }
-
-        .event-content {
-            background: rgba(26, 26, 46, 0.8);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 3px solid var(--color-platinum);
-            backdrop-filter: blur(10px);
-        }
-
-        .event-content h3 {
-            font-family: var(--font-display);
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            color: var(--color-accent-gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .event-content .time {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: var(--color-accent-silver);
-            margin-bottom: 0.8rem;
-        }
-
-        .event-content p {
-            font-size: clamp(0.85rem, 1.8vw, 1rem);
-            color: var(--color-light-gray);
-            line-height: 1.6;
-        }
-
-        /* ============================================
-           VENUE SECTION
-           ============================================ */
-        .venue-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .venue-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 6vw, 3rem);
-            color: var(--color-platinum);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .venue-name {
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            color: var(--color-accent-gold);
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .venue-location {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--color-accent-silver);
-            margin-bottom: 1.5rem;
-        }
-
-        .venue-poem {
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            color: var(--color-light-gray);
-            font-style: italic;
-            line-height: 1.8;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--color-platinum);
-        }
-
-        /* ============================================
-           DRESS CODE SECTION
-           ============================================ */
-        .dress-code-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .dress-code-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
-        }
-
-        .dress-code-card p {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--color-light-gray);
-            margin-bottom: 1rem;
-        }
-
-        .dress-code-detail {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: var(--color-accent-silver);
-            font-style: italic;
-        }
-
-        /* ============================================
-           RSVP SECTION
-           ============================================ */
-        .rsvp-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-accent-gold);
-            border-radius: 15px;
-            padding: clamp(2.5rem, 6vw, 4rem);
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
-        }
-
-        .rsvp-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-accent-gold);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .rsvp-deadline {
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            color: var(--color-accent-silver);
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        .rsvp-button {
-            display: inline-block;
-            padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
-            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
-            color: var(--color-obsidian);
-            text-decoration: none;
-            border-radius: 50px;
-            font-family: var(--font-body);
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: var(--transition-smooth);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-            border: none;
-        }
-
-        .rsvp-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-            background: linear-gradient(135deg, #e0c158 0%, #d4af37 100%);
-        }
-
-        .rsvp-button:active {
-            transform: translateY(-1px);
-        }
-
-        /* ============================================
-           QUOTE SECTION
-           ============================================ */
-        .quote-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2.5rem, 6vw, 4rem);
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .quote-card blockquote {
-            font-size: clamp(1.3rem, 4vw, 2rem);
-            color: var(--color-platinum);
-            font-style: italic;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            font-family: var(--font-display);
-            letter-spacing: 1px;
-        }
-
-        .quote-card .attribution {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: var(--color-accent-silver);
-            font-style: normal;
-        }
-
-        /* ============================================
-           ACCOMMODATION SECTION
-           ============================================ */
-        .accommodation-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 700px;
-            margin: 0 auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .accommodation-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
-            text-align: center;
-        }
-
-        .accommodation-item {
-            background: rgba(26, 26, 46, 0.6);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--color-accent-gold);
-        }
-
-        .accommodation-item h3 {
-            color: var(--color-accent-gold);
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            margin-bottom: 0.5rem;
-        }
-
-        .accommodation-item p {
-            color: var(--color-light-gray);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            margin-bottom: 0.5rem;
-        }
-
-        .accommodation-link {
-            color: var(--color-accent-silver);
-            text-decoration: none;
-            font-size: clamp(0.85rem, 1.8vw, 1rem);
-            transition: var(--transition-fast);
-        }
-
-        .accommodation-link:hover {
-            color: var(--color-accent-gold);
-            text-decoration: underline;
-        }
-
-        /* ============================================
-           GALLERY SECTION
-           ============================================ */
-        .gallery-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .gallery-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 0 clamp(1rem, 3vw, 2rem);
-        }
-
-        .gallery-frame {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 3px solid var(--color-platinum);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            transition: var(--transition-smooth);
-        }
-
-        .gallery-frame:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
-        }
-
-        .gallery-placeholder {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.2), transparent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            color: var(--color-accent-silver);
-            font-style: italic;
-        }
-
-        /* ============================================
-           GIFT REGISTRY SECTION
-           ============================================ */
-        .gift-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .gift-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .gift-message {
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            color: var(--color-light-gray);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .gift-link {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
-            color: var(--color-obsidian);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: var(--transition-smooth);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-        }
-
-        .gift-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-        }
-
-        /* ============================================
-           MAP SECTION
-           ============================================ */
-        .map-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .map-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
-        }
-
-        .map-link {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, var(--color-accent-gold) 0%, #c9a227 100%);
-            color: var(--color-obsidian);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: var(--transition-smooth);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-        }
-
-        .map-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-        }
-
-        /* ============================================
-           MUSIC SECTION
-           ============================================ */
-        .music-card {
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%);
-            border: 2px solid var(--color-platinum);
-            border-radius: 15px;
-            padding: clamp(2rem, 5vw, 3.5rem);
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        }
-
-        .music-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: var(--color-platinum);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .music-info {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--color-accent-gold);
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .music-artist {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: var(--color-accent-silver);
-            font-style: italic;
-        }
-
-        /* ============================================
-           FOOTER
-           ============================================ */
-        footer {
-            text-align: center;
-            padding: clamp(2rem, 4vw, 3rem);
-            background: linear-gradient(180deg, transparent 0%, rgba(10, 14, 39, 0.8) 100%);
-            color: var(--color-accent-silver);
-            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
-            border-top: 1px solid var(--color-platinum);
-            margin-top: 3rem;
-        }
-
-        /* ============================================
-           RESPONSIVE ADJUSTMENTS
-           ============================================ */
-        @media (max-width: 768px) {
-            .timeline-river::before {
-                left: 20px;
-            }
-
-            .timeline-event:nth-child(odd) .event-content,
-            .timeline-event:nth-child(even) .event-content {
-                width: 100%;
-                margin-left: 60px;
-                margin-right: 0;
-                text-align: left;
-            }
-
-            .timeline-dot {
-                left: 20px;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ============================================
-           ANIMATION KEYFRAMES
-           ============================================ */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes shimmer {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Eleanor & Sebastian | Wedding Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#050507;
+  --glass:rgba(255,255,255,0.06);
+  --text:#f5f5f5;
+  --accent:#c0c0c0;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Sorts Mill Goudy', serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* CANVAS */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+/* BLOOM REVEAL */
+#reveal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#050507;
+  z-index:1000;
+  cursor:pointer;
+}
+
+.rose{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #ff4d6d, #2b0000);
+  box-shadow:0 0 40px rgba(255,0,80,0.4);
+  transition:2s ease;
+}
+
+#reveal.active .rose{
+  transform:scale(3);
+  opacity:0;
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:2;
+  padding:20px;
+}
+
+.hero h1{
+  font-family:'UnifrakturMaguntia', cursive;
+  font-size:clamp(2.5rem,6vw,5rem);
+}
+
+.hero p{
+  opacity:0.8;
+  margin-top:10px;
+}
+
+/* TIMELINE */
+.section{
+  position:relative;
+  z-index:2;
+  padding:100px 20px;
+  max-width:900px;
+  margin:auto;
+}
+
+.title{
+  text-align:center;
+  font-size:2rem;
+  margin-bottom:60px;
+  letter-spacing:2px;
+}
+
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+}
+
+.event{
+  display:flex;
+  justify-content:space-between;
+  padding:20px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+  border-radius:12px;
+}
+
+.event:nth-child(even){
+  flex-direction:row-reverse;
+}
+
+/* RSVP */
+.rsvp{
+  text-align:center;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 24px;
+  border:none;
+  background:var(--accent);
+  color:#000;
+  cursor:pointer;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+#countdown{
+  margin-top:20px;
+  font-size:1.2rem;
+  opacity:0.8;
+}
+
+/* SCROLL */
+.section{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s ease;
+}
+
+.section.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+</style>
 </head>
+
 <body>
-    <!-- Canvas for Rain on Glass Ambient Background -->
-    <canvas id="ambient-canvas"></canvas>
 
-    <!-- Reveal Curtain with Blooming Rose -->
-    <div id="reveal-curtain">
-        <div class="rose-container">
-            <div class="rose">
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="rose-center"></div>
-            </div>
-            <div class="reveal-text">
-                <h1>A Love Story</h1>
-                <p>Click to begin</p>
-            </div>
-        </div>
-    </div>
+<canvas id="rain"></canvas>
 
-    <!-- Main Content -->
-    <div class="content-wrapper">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>
-                Seraphina Vane
-                <span class="ampersand">&</span>
-                Alistair Thorne
-            </h1>
-            <div class="date">
-                Twenty-Ninth of November
-                <span class="year">Two Thousand Twenty-Six</span>
-            </div>
-        </section>
+<!-- BLOOM REVEAL -->
+<div id="reveal">
+  <div class="rose"></div>
+</div>
 
-        <!-- Venue Section -->
-        <section>
-            <div class="venue-card">
-                <h2>The Venue</h2>
-                <div class="venue-name">The Obsidian Spire</div>
-                <div class="venue-location">Edinburgh, Scotland</div>
-                <div class="venue-poem">
-                    Beneath the ancient stone towers where shadows dance with starlight, where the mist of centuries clings to every whispered vow.
-                </div>
-            </div>
-        </section>
+<!-- HERO -->
+<div class="hero">
+  <h1>Eleanor & Sebastian</h1>
+  <p>18 October 2027 • Ravenhall Estate • Edinburgh</p>
+</div>
 
-        <!-- Timeline Section -->
-        <section>
-            <div class="timeline-container">
-                <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--color-platinum); text-align: center; margin-bottom: 2rem; letter-spacing: 2px;">Order of the Day</h2>
-                <div class="timeline-river">
-                    <div class="timeline-event">
-                        <div class="timeline-dot"></div>
-                        <div class="event-content">
-                            <h3>Ceremony Begins</h3>
-                            <div class="time">2:00 PM</div>
-                            <p>Join us as two souls unite in eternal devotion. The ceremony shall commence with the tolling of the ancient bells.</p>
-                        </div>
-                    </div>
+<!-- TIMELINE -->
+<div class="section">
+  <div class="title">Order of the Day</div>
+  <div class="timeline">
+    <div class="event"><span>Ceremony</span><span>5:00 PM</span></div>
+    <div class="event"><span>Cocktail Hour</span><span>6:00 PM</span></div>
+    <div class="event"><span>Dinner</span><span>7:30 PM</span></div>
+    <div class="event"><span>First Dance</span><span>9:00 PM</span></div>
+  </div>
+</div>
 
-                    <div class="timeline-event">
-                        <div class="timeline-dot"></div>
-                        <div class="event-content">
-                            <h3>Reception & Cocktails</h3>
-                            <div class="time">3:30 PM</div>
-                            <p>Celebrate with champagne and delicate canapés in the grand hall, where candlelight dances upon marble walls.</p>
-                        </div>
-                    </div>
+<!-- RSVP -->
+<div class="section rsvp">
+  <div class="title">RSVP</div>
+  <p>rsvp@ravenhallestate.com</p>
+  <p>Deadline: 15 September 2027</p>
 
-                    <div class="timeline-event">
-                        <div class="timeline-dot"></div>
-                        <div class="event-content">
-                            <h3>Dinner Service</h3>
-                            <div class="time">6:00 PM</div>
-                            <p>A sumptuous feast prepared by master chefs, featuring courses that tell a story of culinary artistry and elegance.</p>
-                        </div>
-                    </div>
+  <div id="countdown"></div>
 
-                    <div class="timeline-event">
-                        <div class="timeline-dot"></div>
-                        <div class="event-content">
-                            <h3>First Dance</h3>
-                            <div class="time">8:00 PM</div>
-                            <p>The night reaches its crescendo as the newlyweds take to the floor for their first dance as husband and wife.</p>
-                        </div>
-                    </div>
+  <button onclick="window.location.href='mailto:rsvp@ravenhallestate.com'">
+    Send RSVP
+  </button>
 
-                    <div class="timeline-event">
-                        <div class="timeline-dot"></div>
-                        <div class="event-content">
-                            <h3>Dancing & Revelry</h3>
-                            <div class="time">8:30 PM – Midnight</div>
-                            <p>The celebration continues with music, laughter, and memories to be cherished for a lifetime.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <p style="margin-top:40px;font-style:italic;opacity:0.7;">
+    Two lives, one horizon, endlessly unfolding.
+  </p>
+</div>
 
-        <!-- Dress Code Section -->
-        <section>
-            <div class="dress-code-card">
-                <h2>Dress Code</h2>
-                <p>Black Tie</p>
-                <div class="dress-code-detail">
-                    An evening of elegance and sophistication. Gentlemen are invited to wear tuxedos; ladies, gowns of refined beauty.
-                </div>
-            </div>
-        </section>
+<script>
+/* REVEAL */
+const reveal = document.getElementById("reveal");
+reveal.addEventListener("click", () => {
+  reveal.classList.add("active");
+  setTimeout(() => reveal.style.display="none", 1200);
+});
 
-        <!-- Accommodation Section -->
-        <section>
-            <div class="accommodation-card">
-                <h2>Where to Stay</h2>
-                <div class="accommodation-item">
-                    <h3>The Royal Mile Hotel</h3>
-                    <p>5-star luxury in the heart of Edinburgh's historic district</p>
-                    <p>£180–£250 per night</p>
-                    <a href="https://www.royalmilehotel.com" class="accommodation-link" target="_blank">Visit Website</a>
-                </div>
-                <div class="accommodation-item">
-                    <h3>Prestonfield House</h3>
-                    <p>Romantic boutique hotel with Gothic elegance</p>
-                    <p>£220–£350 per night</p>
-                    <a href="https://www.prestonfield.com" class="accommodation-link" target="_blank">Visit Website</a>
-                </div>
-                <div class="accommodation-item">
-                    <h3>The Scotsman Hotel</h3>
-                    <p>Luxury accommodation in a historic building</p>
-                    <p>£200–£300 per night</p>
-                    <a href="https://www.thescotsman.com" class="accommodation-link" target="_blank">Visit Website</a>
-                </div>
-            </div>
-        </section>
+/* SCROLL OBSERVER */
+const sections = document.querySelectorAll(".section");
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("show");
+    }
+  });
+},{threshold:0.2});
 
-        <!-- Gallery Section -->
-        <section>
-            <div class="gallery-container">
-                <h2 class="gallery-title">Moments in Time</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-frame">
-                        <div class="gallery-placeholder">Gallery Frame 1</div>
-                    </div>
-                    <div class="gallery-frame">
-                        <div class="gallery-placeholder">Gallery Frame 2</div>
-                    </div>
-                    <div class="gallery-frame">
-                        <div class="gallery-placeholder">Gallery Frame 3</div>
-                    </div>
-                    <div class="gallery-frame">
-                        <div class="gallery-placeholder">Gallery Frame 4</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+sections.forEach(s=>obs.observe(s));
 
-        <!-- Gift Registry Section -->
-        <section>
-            <div class="gift-card">
-                <h2>Gifts & Registry</h2>
-                <div class="gift-message">
-                    Your presence is the greatest gift. However, should you wish to contribute to our future together, we have curated a registry of items close to our hearts.
-                </div>
-                <a href="https://www.example-registry.com" class="gift-link" target="_blank">View Registry</a>
-            </div>
-        </section>
+/* RAIN ON GLASS */
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-        <!-- Map Section -->
-        <section>
-            <div class="map-card">
-                <h2>Getting There</h2>
-                <p style="color: var(--color-light-gray); margin-bottom: 1.5rem; font-size: clamp(0.95rem, 2vw, 1.1rem);">
-                    The Obsidian Spire, Royal Mile, Edinburgh, EH1 3AA, Scotland
-                </p>
-                <a href="https://www.google.com/maps/place/Royal+Mile,+Edinburgh" class="map-link" target="_blank">View on Google Maps</a>
-            </div>
-        </section>
+let drops = Array(120).fill().map(()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  l:Math.random()*20+10,
+  s:Math.random()*2+1
+}));
 
-        <!-- Music Section -->
-        <section>
-            <div class="music-card">
-                <h2>Our First Dance</h2>
-                <div class="music-info">Moonlight Sonata</div>
-                <div class="music-artist">Ludwig van Beethoven (Performed by Víkingur Ólafsson)</div>
-            </div>
-        </section>
+function rain(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(200,200,255,0.15)";
+  ctx.lineWidth=1;
 
-        <!-- Quote Section -->
-        <section>
-            <div class="quote-card">
-                <blockquote>
-                    "Two souls, one heart, forever entwined in the dance of eternity."
-                </blockquote>
-                <div class="attribution">— A Vow of Eternal Love</div>
-            </div>
-        </section>
+  for(let d of drops){
+    ctx.beginPath();
+    ctx.moveTo(d.x,d.y);
+    ctx.lineTo(d.x,d.y+d.l);
+    ctx.stroke();
 
-        <!-- RSVP Section -->
-        <section>
-            <div class="rsvp-card">
-                <h2>RSVP</h2>
-                <div class="rsvp-deadline">
-                    Please respond by the 15th of November, 2026
-                </div>
-                <a href="mailto:seraphina.alistair@obsidianspire.com" class="rsvp-button">Confirm Your Attendance</a>
-            </div>
-        </section>
+    d.y += d.s;
+    if(d.y>canvas.height){
+      d.y=-20;
+      d.x=Math.random()*canvas.width;
+    }
+  }
+  requestAnimationFrame(rain);
+}
+rain();
 
-        <!-- Footer -->
-        <footer>
-            <p>With love and gratitude, Seraphina & Alistair</p>
-            <p style="margin-top: 0.5rem; opacity: 0.7;">The Obsidian Spire • Edinburgh • November 29, 2026</p>
-        </footer>
-    </div>
+/* COUNTDOWN */
+const deadline = new Date("2027-09-15").getTime();
+const cd = document.getElementById("countdown");
 
-    <!-- JavaScript -->
-    <script>
-        // ============================================
-        // RAIN ON GLASS AMBIENT BACKGROUND
-        // ============================================
-        const canvas = document.getElementById('ambient-canvas');
-        const ctx = canvas.getContext('2d');
+setInterval(()=>{
+  const now = new Date().getTime();
+  const t = deadline - now;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+  const d = Math.floor(t/(1000*60*60*24));
+  const h = Math.floor((t%(1000*60*60*24))/(1000*60*60));
 
-        const raindrops = [];
+  cd.innerHTML = `${d} days ${h} hours remaining`;
+},1000);
 
-        class Raindrop {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height - canvas.height;
-                this.width = Math.random() * 3 + 1;
-                this.height = Math.random() * 15 + 10;
-                this.opacity = Math.random() * 0.3 + 0.1;
-                this.speed = Math.random() * 2 + 1;
-                this.drift = (Math.random() - 0.5) * 0.5;
-            }
+</script>
 
-            update() {
-                this.y += this.speed;
-                this.x += this.drift;
-
-                if (this.y > canvas.height) {
-                    this.y = -this.height;
-                    this.x = Math.random() * canvas.width;
-                }
-
-                if (this.x < 0) this.x = canvas.width;
-                if (this.x > canvas.width) this.x = 0;
-            }
-
-            draw() {
-                ctx.strokeStyle = `rgba(192, 192, 192, ${this.opacity})`;
-                ctx.lineWidth = this.width;
-                ctx.lineCap = 'round';
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x + this.drift * 2, this.y + this.height);
-                ctx.stroke();
-            }
-        }
-
-        // Initialize raindrops
-        for (let i = 0; i < 80; i++) {
-            raindrops.push(new Raindrop());
-        }
-
-        function animateRain() {
-            ctx.fillStyle = 'rgba(10, 14, 39, 0.02)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            raindrops.forEach(drop => {
-                drop.update();
-                drop.draw();
-            });
-
-            requestAnimationFrame(animateRain);
-        }
-
-        animateRain();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // ============================================
-        // REVEAL CURTAIN INTERACTION
-        // ============================================
-        const revealCurtain = document.getElementById('reveal-curtain');
-
-        function hideReveal() {
-            revealCurtain.classList.add('hidden');
-            setTimeout(() => {
-                revealCurtain.style.display = 'none';
-            }, 800);
-        }
-
-        revealCurtain.addEventListener('click', hideReveal);
-        revealCurtain.addEventListener('touchend', hideReveal);
-
-        // Auto-hide after 5 seconds
-        setTimeout(hideReveal, 5000);
-
-        // ============================================
-        // SCROLL REVEAL ANIMATIONS
-        // ============================================
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-
-        // ============================================
-        // SMOOTH SCROLL BEHAVIOR
-        // ============================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // ============================================
-        // AMBIENT LIGHT EFFECTS
-        // ============================================
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            // Subtle light effect following cursor
-            const lightX = x * 100;
-            const lightY = y * 100;
-            
-            document.documentElement.style.setProperty('--light-x', lightX + '%');
-            document.documentElement.style.setProperty('--light-y', lightY + '%');
-        });
-    </script>
 </body>
 </html>
